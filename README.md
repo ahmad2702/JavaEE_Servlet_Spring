@@ -7,4 +7,5 @@ Kirill Prakhov - s0554624
 # Folder
 
 |- propsFileUtil       (Praktikumsaufgabe 1)
+
 |- runMeRunner         (Belegaufgabe 1)
