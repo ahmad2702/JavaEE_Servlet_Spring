@@ -1,2 +1,5 @@
 /.metadata/
-.recommenders
+/.recommenders/
+/.idea/
+/RemoteSystemsTempFiles/
+.DS_Store
