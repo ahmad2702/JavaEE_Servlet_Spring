@@ -55,8 +55,8 @@ public class App {
 
 		Options options = new Options();
 		// File configurations, no optional.
-		options.addOption("c", "configFile", true, "ConfigFile is required");
-		options.addRequiredOption("l", "logFile", true, "LogFile is required");
+		options.addRequiredOption("c", "configFile", true, "ConfigFile is required");
+		options.addOption("l", "logFile", true, "LogFile is required");
 		// schema options
 		options.addOption("h", "help", false, "Show this help");
 		options.addOption("i", "ignore", true, "Ignore specified object type");
