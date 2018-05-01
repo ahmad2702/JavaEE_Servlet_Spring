@@ -1,5 +1,7 @@
 package de.htw.ai.kbe.runMeRunner;
 
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Properties;
 
@@ -11,13 +13,26 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 import de.htw.ai.kbe.propsFileUtil.PropsFileUtil;
+import de.htw.ai.kbe.propsFileUtil.PropsReadException;
 
 @SuppressWarnings("unused")
 public class App {
-
+	
+	private static String propsFile;
+	private static Properties properties;
+	private static File runMeReport;
+	
 	public static void main(String[] args) {
-		ConfigurationVars configuration = parseCLI(args);
+		
+		//ConfigurationVars configuration = parseCLI(args);
+		
+		//String key = properties.getProperty("classToLoad");
+		
+		searchMethods("MyClassWithRunMes1");
 
+		
+		
+		
 	}
 	// try {
 	// Properties cl = new PropsFileUtil().readPropsFile(args[0]);
@@ -75,7 +90,30 @@ public class App {
 				// setConfigFilePath(commandLine.getOptionValue("c"));
 				// configVars.setMakesDDL(true);
 			}
-
+			
+			
+			
+			
+			if (commandLine.hasOption("p")) {
+				propsFile = commandLine.getOptionValue("p");
+				try {
+					properties = PropsFileUtil.readPropsFile(propsFile);
+					
+				} catch (PropsReadException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			if (commandLine.hasOption("o")) {
+				runMeReport = new File(commandLine.getOptionValue("o"));
+			}
+			
+			
+			
+			
+			
+			
 			/**
 			 * options to ignore
 			 */
@@ -122,6 +160,41 @@ public class App {
 		 */
 		public CommandLineException(String pMessage) {
 			super(pMessage);
+		}
+	}
+	
+	private static void searchMethods(String key) {
+		try {
+			
+			//Object x = Class.forName(App.class.getPackage().getName()+ "." + key);
+			Object x = Class.forName(key).newInstance();
+			
+			for (Method methode : x.getClass().getMethods()) {
+				if (methode.isAnnotationPresent(RunMe.class)) {
+					try {
+						System.out.println(methode.invoke(x,methode.getAnnotation(RunMe.class).input()) + "\n");
+						
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				
+			}
+			
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
