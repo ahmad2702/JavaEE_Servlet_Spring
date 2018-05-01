@@ -1,6 +1,8 @@
 package de.htw.ai.kbe.runMeRunner;
 
 import java.lang.reflect.Method;
+import java.util.Properties;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -15,36 +17,36 @@ public class App {
 
 	public static void main(String[] args) {
 		ConfigurationVars configuration = parseCLI(args);
-	}
 
+	}
 	// try {
-	// String cl = new PropsFileUtil().readPropsFile(new File(args[0]));
+	// Properties cl = new PropsFileUtil().readPropsFile(args[0]);
 	// callMethods(cl);
 	// } catch (ArrayIndexOutOfBoundsException e) {
 	// System.out.println("Config file name missing as parameter");
 	// }
-
-	private static void callMethods(String cl) {
-
-		try {
-			Object x = Class.forName(cl).newInstance();
-			for (Method methode : x.getClass().getMethods()) {
-
-				if (methode.isAnnotationPresent(RunMe.class)) {
-					System.out.println(methode.invoke(x, methode.getAnnotation(RunMe.class).input()) + "\n");
-				}
-
-			}
-
-		} catch (Exception e) {
-
-		}
-	}
+	//
+	// private static void callMethods(String cl) {
+	//
+	// try {
+	// Object x = Class.forName(cl).newInstance();
+	// for (Method methode : x.getClass().getMethods()) {
+	//
+	// if (methode.isAnnotationPresent(RunMe.class)) {
+	// System.out.println(methode.invoke(x,
+	// methode.getAnnotation(RunMe.class).input()) + "\n");
+	// }
+	//
+	// }
+	//
+	// } catch (Exception e) {
+	//
+	// }
+	// }
 
 	/**
 	 * Parser for CommandLine Command-Line Handling with Apache Commons CLI
 	 * 
-	 * @author prakhov_k1
 	 * @param pArgs
 	 *            Arguments
 	 * @return return
@@ -55,15 +57,10 @@ public class App {
 
 		Options options = new Options();
 		// File configurations, no optional.
-		options.addRequiredOption("c", "configFile", true, "ConfigFile is required");
-		options.addOption("l", "logFile", true, "LogFile is required");
-		// schema options
+		options.addRequiredOption("p", "propsFile", true, "ConfigFile is required");
+		options.addRequiredOption("o", "runMeReport", true, "LogFile is required");
+		// optional arguments
 		options.addOption("h", "help", false, "Show this help");
-		options.addOption("i", "ignore", true, "Ignore specified object type");
-		options.addOption("d", "ddl", false, "Create a ddl sync script (schema1 is main)");
-		options.addOption(null, "url1", true, "Url of your first database");
-		options.addOption(null, "user1", true, "Username for the first database");
-
 		String header = "Welcome to RunMeRunner!\n";
 
 		try {
