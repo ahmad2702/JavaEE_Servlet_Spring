@@ -27,17 +27,17 @@ public class MyClassWithRunMes2 implements MethodsExample{
 		return null;
 	}
 	
-	@RunMe(input = "")
+	@RunMe()
 	public void annonMeth1() {
 		
 	}
 	
-	@RunMe(input = "")
+	@RunMe()
 	public void annonMeth2() {
 		
 	}
 	
-	@RunMe(input = "")
+	@RunMe()
 	public void annonMeth3() {
 		
 	}

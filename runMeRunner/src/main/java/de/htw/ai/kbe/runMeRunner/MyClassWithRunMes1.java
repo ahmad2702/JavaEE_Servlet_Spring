@@ -2,10 +2,6 @@ package de.htw.ai.kbe.runMeRunner;
 
 public class MyClassWithRunMes1 implements MethodsExample{
 	
-	public void getTest() {
-		System.out.println("Ok");
-	}
-	
 	public String method1() {
 		// TODO Auto-generated method stub
 		return null;
@@ -31,18 +27,22 @@ public class MyClassWithRunMes1 implements MethodsExample{
 		return null;
 	}
 	
-	@RunMe(input = "")
+	@RunMe()
 	public void annonMeth1() {
 		
 	}
 	
-	@RunMe(input = "")
+	@RunMe()
 	public void annonMeth2() {
 		
 	}
 	
-	@RunMe(input = "")
+	@RunMe()
 	public void annonMeth3() {
+		
+	}
+	
+	private void testPrivate() {
 		
 	}
 

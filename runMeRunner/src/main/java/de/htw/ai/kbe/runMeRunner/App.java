@@ -1,6 +1,7 @@
 package de.htw.ai.kbe.runMeRunner;
 
 import java.io.File;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Properties;
@@ -20,17 +21,19 @@ public class App {
 	
 	private static String propsFile;
 	private static Properties properties;
-	private static File runMeReport;
 	
+	private static Result result = new Result();
+
 	public static void main(String[] args) {
 		
 		//ConfigurationVars configuration = parseCLI(args);
 		
 		//String key = properties.getProperty("classToLoad");
-		
-		searchMethods("MyClassWithRunMes1");
 
 		
+		searchMethods("de.htw.ai.kbe.runMeRunner.MyClassWithRunMes1");
+
+		System.out.println(result.toString());
 		
 		
 	}
@@ -106,7 +109,8 @@ public class App {
 			}
 			
 			if (commandLine.hasOption("o")) {
-				runMeReport = new File(commandLine.getOptionValue("o"));
+				File file = new File(commandLine.getOptionValue("o"));
+				Result.setRunMeReport(file);
 			}
 			
 			
@@ -167,32 +171,57 @@ public class App {
 		try {
 			
 			//Object x = Class.forName(App.class.getPackage().getName()+ "." + key);
-			Object x = Class.forName(key).newInstance();
+			Class<?> x = (Class<?>) Class.forName(key);
 			
-			for (Method methode : x.getClass().getMethods()) {
-				if (methode.isAnnotationPresent(RunMe.class)) {
-					try {
-						System.out.println(methode.invoke(x,methode.getAnnotation(RunMe.class).input()) + "\n");
-						
-					} catch (IllegalArgumentException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+			Object classObj = null;
+			try {
+				classObj = x.newInstance();
+			} catch (InstantiationException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IllegalAccessException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			String packageName = x.getPackage().getName();	
+			
+			Method[] methods = x.getDeclaredMethods();
+			result.setMethodCount(methods.length);
+			
+			for (Method methode : methods) {
+				//System.out.println(methode.getName());
+				
+				Annotation[] annos = methode.getDeclaredAnnotations();
+				
+				// Poisk vseh methodov s RunMe
+				if(annos.length != 0) {
+					for(Annotation a : annos) {
+						if(a.annotationType().getName().equals(packageName+".RunMe")) {
+							//System.out.println(methode.getName());
+							result.addMethodNamesWithRunMe(methode.getName());
+						}
 					}
 				}
+			      
+				// Poisk "nerabochih" methodov 
+				
+				try {
+					//methode.setAccessible(true);
+					methode.invoke(classObj);
+				} catch (IllegalAccessException e) {
+					result.addMethodNamesNotInvokable(methode.getName());
+				} catch (IllegalArgumentException e) {
+					result.addMethodNamesNotInvokable(methode.getName());
+				} catch (InvocationTargetException e) {
+					result.addMethodNamesNotInvokable(methode.getName());
+				}
+				
 				
 				
 			}
 			
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
+		}catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
