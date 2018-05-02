@@ -1,4 +1,4 @@
-package de.htw.ai.kbe.runMeRunner;
+package de.htw.ai.kbe.runMeRunner.analyse;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;

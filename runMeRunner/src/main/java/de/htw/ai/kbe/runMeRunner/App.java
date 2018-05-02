@@ -2,6 +2,7 @@ package de.htw.ai.kbe.runMeRunner;
 
 import de.htw.ai.kbe.propsFileUtil.PropsFileUtil;
 import de.htw.ai.kbe.propsFileUtil.PropsReadException;
+import de.htw.ai.kbe.runMeRunner.analyse.ClassAnalyse;
 import de.htw.ai.kbe.runMeRunner.consoleDataParser.Parser;
 
 public class App {

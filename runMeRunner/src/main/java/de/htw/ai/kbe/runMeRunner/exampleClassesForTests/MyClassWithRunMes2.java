@@ -1,4 +1,6 @@
-package de.htw.ai.kbe.runMeRunner;
+package de.htw.ai.kbe.runMeRunner.exampleClassesForTests;
+
+import de.htw.ai.kbe.runMeRunner.RunMe;
 
 public class MyClassWithRunMes2 implements MethodsExample{
 

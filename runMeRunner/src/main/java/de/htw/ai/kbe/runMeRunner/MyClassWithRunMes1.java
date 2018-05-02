@@ -1,5 +1,7 @@
 package de.htw.ai.kbe.runMeRunner;
 
+import de.htw.ai.kbe.runMeRunner.exampleClassesForTests.MethodsExample;
+
 public class MyClassWithRunMes1 implements MethodsExample{
 	
 	public String method1() {

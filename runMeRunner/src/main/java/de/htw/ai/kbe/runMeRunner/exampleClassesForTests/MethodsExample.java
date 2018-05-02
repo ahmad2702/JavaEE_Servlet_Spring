@@ -1,4 +1,4 @@
-package de.htw.ai.kbe.runMeRunner;
+package de.htw.ai.kbe.runMeRunner.exampleClassesForTests;
 
 public interface MethodsExample {
 	abstract String method1();
