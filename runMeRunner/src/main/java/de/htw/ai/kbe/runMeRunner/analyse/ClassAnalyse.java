@@ -8,21 +8,25 @@ import java.util.List;
 
 public class ClassAnalyse {
 	
-	private Class<?> x = null;
+	private Class<?> willAnalysed = null;
 	private Object classObj = null;
 	
 	private String packageName;
 
-	public ClassAnalyse(String className) {
-
+	public ClassAnalyse(String className) throws Exception {
+		
+		if(className.isEmpty()) {
+			throw new Exception("Value von 'classToLoad' ist leer!");
+		}
+		
 		try {
 			
-			this.x = (Class<?>) Class.forName(className);
-			this.classObj = x.newInstance();
-			this.packageName = x.getPackage().getName();
+			this.willAnalysed = (Class<?>) Class.forName(className);
+			this.classObj = willAnalysed.newInstance();
+			this.packageName = willAnalysed.getPackage().getName();
 			
 		} catch (ClassNotFoundException e1) {
-			e1.printStackTrace();
+			throw new Exception("Die Klasse ist nicht gefunden!");
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
@@ -32,14 +36,14 @@ public class ClassAnalyse {
 	}
 	
 	public int countMethodsInClass() {
-		Method[] methods = x.getDeclaredMethods();
+		Method[] methods = willAnalysed.getDeclaredMethods();
 		return methods.length;
 	}
 	
 	public List<String> searchAllMethodsWithAnnotnnotation(String annotnnotationName) {
 		List<String> methodNamesWithAnnotnnotation = new ArrayList<String>();
 		
-		Method[] methods = x.getDeclaredMethods();
+		Method[] methods = willAnalysed.getDeclaredMethods();
 		
 		for (Method methode : methods) {
 			Annotation[] annos = methode.getDeclaredAnnotations();
@@ -61,7 +65,7 @@ public class ClassAnalyse {
 	public List<String> searchAllMethodsWithAnnotnnotationNotInvokable(String annotnnotationName) {
 		List<String> methodNamesWithAnnotnnotationNotInvokable = new ArrayList<String>();
 		
-		Method[] methods = x.getDeclaredMethods();
+		Method[] methods = willAnalysed.getDeclaredMethods();
 		
 		for (Method methode : methods) {
 			Annotation[] annos = methode.getDeclaredAnnotations();

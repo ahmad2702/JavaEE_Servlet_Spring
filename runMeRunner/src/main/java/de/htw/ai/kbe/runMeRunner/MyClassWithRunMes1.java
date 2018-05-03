@@ -30,16 +30,17 @@ public class MyClassWithRunMes1 implements MethodsExample{
 	}
 	
 	@RunMe()
-	public void annonMeth1() {
+	private void annonMeth1() {
 		
 	}
 	
 	@RunMe()
-	public void annonMeth2() {
+	protected void annonMeth2() {
 		
 	}
 	
 	@RunMe()
+<<<<<<< HEAD
 	public void annonMeth3() {
 		
 	}
@@ -47,6 +48,10 @@ public class MyClassWithRunMes1 implements MethodsExample{
 	@SuppressWarnings("unused")
 	private void testPrivate() {
 		
+=======
+	public void annonMeth3() throws Exception {
+		throw new Exception("sdfsdf");
+>>>>>>> branch 'master' of https://github.com/ahmad2702/SoSe2018KBE_Akhmad_Kirill.git
 	}
 
 	

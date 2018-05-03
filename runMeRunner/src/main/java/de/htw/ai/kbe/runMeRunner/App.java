@@ -1,5 +1,7 @@
 package de.htw.ai.kbe.runMeRunner;
 
+import java.util.Properties;
+
 import de.htw.ai.kbe.propsFileUtil.PropsFileUtil;
 import de.htw.ai.kbe.propsFileUtil.PropsReadException;
 import de.htw.ai.kbe.runMeRunner.analyse.ClassAnalyse;
@@ -11,25 +13,29 @@ public class App {
 	private static final String CLASS_KEY_NAME = "classToLoad";
 	private static Result result = new Result();
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		
-		// Test s Console
-		//ConfigurationVars configuration = parseCLI(args);
-		
+		/**
 		Parser parser = new Parser();
 		parser.parseCLI(args);
 		
-		String key = "";
+		String myClassName = "";
+		Properties properties = null;
+		
 		try {
-			key = PropsFileUtil.readPropsFile(parser.getPropsFileName()).getProperty(CLASS_KEY_NAME);
+			properties = PropsFileUtil.readPropsFile(parser.getPropsFileName());
+			
+			if(!properties.containsKey(CLASS_KEY_NAME)) {
+				throw new Exception("'classToLoad' ist nicht gefunden!");
+			}
+			
 		} catch (PropsReadException e) {
-			e.printStackTrace();
+			//throw new Exception("'classToLoad' ist nicht gefunden!");
 		}
 		
-		ClassAnalyse classAnalyse = new ClassAnalyse(key);
+		myClassName = properties.getProperty(CLASS_KEY_NAME);
 		
-		// Test bez konsoli
-		//ClassAnalyse classAnalyse = new ClassAnalyse("de.htw.ai.kbe.runMeRunner.MyClassWithRunMes1");
+		ClassAnalyse classAnalyse = new ClassAnalyse(myClassName);
 		
 		result.setMethodCount(classAnalyse.countMethodsInClass());
 		result.setMethodNamesWithRunMe(classAnalyse.searchAllMethodsWithAnnotnnotation(ANNOTATION_NAME));
@@ -37,6 +43,38 @@ public class App {
 		Result.setRunMeReport(parser.getOutFileName());
 		
 		System.out.println(result.toString());
+		*/
+
+
+		// Test bez konsoli
+		String myClassName = "";
+		Properties properties = null;
+		
+		try {
+			properties = PropsFileUtil.readPropsFile("./propsFile.properties");
+			
+			if(!properties.containsKey(CLASS_KEY_NAME)) {
+				throw new Exception("'classToLoad' ist nicht gefunden!");
+			}
+
+		} catch (PropsReadException e) {
+			//throw new Exception("'classToLoad' ist nicht gefunden!");
+		} 
+		
+		myClassName = properties.getProperty(CLASS_KEY_NAME);
+
+		
+		ClassAnalyse classAnalyse = new ClassAnalyse(myClassName);
+		
+		result.setMethodCount(classAnalyse.countMethodsInClass());
+		result.setMethodNamesWithRunMe(classAnalyse.searchAllMethodsWithAnnotnnotation(ANNOTATION_NAME));
+		result.setMethodNamesNotInvokable(classAnalyse.searchAllMethodsWithAnnotnnotationNotInvokable(ANNOTATION_NAME));
+		Result.setRunMeReport("");
+		
+		System.out.println(result.toString());
+
+		
+		
 	}
 
 	
