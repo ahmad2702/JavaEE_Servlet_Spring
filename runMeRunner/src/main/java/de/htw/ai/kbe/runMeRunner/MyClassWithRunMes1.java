@@ -44,6 +44,7 @@ public class MyClassWithRunMes1 implements MethodsExample{
 		
 	}
 	
+	@SuppressWarnings("unused")
 	private void testPrivate() {
 		
 	}
