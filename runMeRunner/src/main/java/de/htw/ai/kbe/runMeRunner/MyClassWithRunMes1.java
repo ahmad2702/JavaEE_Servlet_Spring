@@ -30,22 +30,18 @@ public class MyClassWithRunMes1 implements MethodsExample{
 	}
 	
 	@RunMe()
-	public void annonMeth1() {
+	private void annonMeth1() {
 		
 	}
 	
 	@RunMe()
-	public void annonMeth2() {
+	protected void annonMeth2() {
 		
 	}
 	
 	@RunMe()
-	public void annonMeth3() {
-		
-	}
-	
-	private void testPrivate() {
-		
+	public void annonMeth3() throws Exception {
+		throw new Exception("sdfsdf");
 	}
 
 	
