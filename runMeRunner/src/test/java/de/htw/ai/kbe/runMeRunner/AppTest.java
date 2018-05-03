@@ -10,10 +10,10 @@ import org.junit.Test;
 import de.htw.ai.kbe.runMeRunner.analyse.ClassAnalyse;
 
 /**
- * Unit test for simple App.
+ * Unit tests for simple Application
  */
 public class AppTest {
-	private static final String CLASS_NAME= "de.htw.ai.kbe.runMeRunner.MyClassWithRunMes1";
+	private static final String CLASS_NAME = "de.htw.ai.kbe.runMeRunner.MyClassWithRunMes1";
 	private static final int COUNT_METHODS = 8; 
 	
 	

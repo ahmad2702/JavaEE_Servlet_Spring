@@ -2,8 +2,8 @@ package de.htw.ai.kbe.runMeRunner;
 
 import de.htw.ai.kbe.runMeRunner.exampleClassesForTests.MethodsExample;
 
-public class MyClassWithRunMes1 implements MethodsExample{
-	
+public class MyClassWithRunMes1 implements MethodsExample {
+
 	public String method1() {
 		// TODO Auto-generated method stub
 		return null;
@@ -28,31 +28,24 @@ public class MyClassWithRunMes1 implements MethodsExample{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@RunMe()
 	private void annonMeth1() {
-		
-	}
-	
-	@RunMe()
-	protected void annonMeth2() {
-		
-	}
-	
-	@RunMe()
-<<<<<<< HEAD
-	public void annonMeth3() {
-		
-	}
-	
-	@SuppressWarnings("unused")
-	private void testPrivate() {
-		
-=======
-	public void annonMeth3() throws Exception {
-		throw new Exception("sdfsdf");
->>>>>>> branch 'master' of https://github.com/ahmad2702/SoSe2018KBE_Akhmad_Kirill.git
+
 	}
 
-	
+	@RunMe()
+	protected void annonMeth2() {
+
+	}
+
+	@SuppressWarnings("unused")
+	private void testPrivate() {
+
+	}
+
+	public void annonMeth3() throws Exception {
+		throw new Exception("sdfsdf");
+	}
+
 }
