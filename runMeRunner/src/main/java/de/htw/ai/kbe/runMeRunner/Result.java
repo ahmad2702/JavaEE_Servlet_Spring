@@ -101,20 +101,25 @@ public class Result {
 				+ "Auflistung der NICHT ausfuehrbaren : " + methodNamesNotInvokable + "\n";
 	}
 
+	/**
+	 * Method to write the result string in output file
+	 * 
+	 * @param string
+	 * @throws IOException
+	 */
 	public void addStringToLogfile(String string) throws IOException {
-	     PrintWriter pWriter = null;
-	     try {
-	       pWriter = new PrintWriter(new BufferedWriter(new FileWriter(getRunMeReport())));
-	       pWriter.println(toString());
-	     } catch (IOException ioe) {
-	       ioe.printStackTrace();
-	     } finally {
-	       if (pWriter != null){
-	         pWriter.flush();
-	         pWriter.close();
-	       }
-	     }
-	   }
-
+		PrintWriter pWriter = null;
+		try {
+			pWriter = new PrintWriter(new BufferedWriter(new FileWriter(getRunMeReport())));
+			pWriter.println(toString());
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		} finally {
+			if (pWriter != null) {
+				pWriter.flush();
+				pWriter.close();
+			}
+		}
+	}
 
 }
