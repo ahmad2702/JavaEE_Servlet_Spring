@@ -25,8 +25,6 @@ public class Parser {
 		CommandLineParser parser = new DefaultParser();
 
 		Options options = new Options();
-
-		// File configurations, no optional.
 		options.addRequiredOption("p", "propsFile", true, "ConfigFile is required");
 		options.addRequiredOption("o", "runMeReport", true, "LogFile is required");
 
@@ -43,24 +41,29 @@ public class Parser {
 			}
 
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
 
+	/**
+	 * Getter for propsFileName
+	 * @return propsFileName
+	 */
 	public String getPropsFileName() {
 		return propsFileName;
 	}
 
+	/**
+	 * Getter for outFileName
+	 * @return outFileName
+	 */
 	public String getOutFileName() {
 		return outFileName;
 	}
 
 	/**
-	 * 
 	 * CLI exceptions
-	 *
 	 */
 	class CommandLineException extends Exception {
 		private static final long serialVersionUID = 1L;
