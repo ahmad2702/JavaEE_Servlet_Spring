@@ -48,6 +48,7 @@ public class Parser {
 
 	/**
 	 * Getter for propsFileName
+	 * 
 	 * @return propsFileName
 	 */
 	public String getPropsFileName() {
@@ -56,6 +57,7 @@ public class Parser {
 
 	/**
 	 * Getter for outFileName
+	 * 
 	 * @return outFileName
 	 */
 	public String getOutFileName() {

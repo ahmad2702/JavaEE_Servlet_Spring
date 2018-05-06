@@ -1,6 +1,10 @@
 package de.htw.ai.kbe.runMeRunner;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,5 +100,21 @@ public class Result {
 				"Anzahl der NICHT ausfuehrbaren @RunMe-Methoden " + methodNamesNotInvokable.size() + "\n"
 				+ "Auflistung der NICHT ausfuehrbaren : " + methodNamesNotInvokable + "\n";
 	}
+
+	public void addStringToLogfile(String string) throws IOException {
+	     PrintWriter pWriter = null;
+	     try {
+	       pWriter = new PrintWriter(new BufferedWriter(new FileWriter(getRunMeReport())));
+	       pWriter.println(toString());
+	     } catch (IOException ioe) {
+	       ioe.printStackTrace();
+	     } finally {
+	       if (pWriter != null){
+	         pWriter.flush();
+	         pWriter.close();
+	       }
+	     }
+	   }
+
 
 }

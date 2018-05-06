@@ -3,7 +3,9 @@ package de.htw.ai.kbe.runMeRunner;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.util.Properties;
+import java.util.Scanner;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -58,6 +60,25 @@ public class AppTest {
 			countFromClassName += 1;
 		}
 		assertEquals(countFromClassName, COUNT_METHODS_WITH_RUNME_NON_INVOKABLE);
+
+	}
+
+	@Test
+	public void compareRunMeReportAndTheResultString() throws Exception {
+		ClassAnalyse classAnalyse = new ClassAnalyse(CLASS_NAME);
+		Result result = new Result();
+		result.setMethodCount(classAnalyse.countMethodsInClass());
+		result.setMethodNamesWithRunMe(classAnalyse.searchAllMethodsWithAnnotation("RunMe"));
+		result.setMethodNamesNotInvokable(classAnalyse.searchAllMethodsWithAnnotationNotInvokable("RunMe"));
+		Result.setRunMeReport("testRunMeReport");
+		// System.out.println(result.toString());
+		String resultString = result.toString();
+		result.addStringToLogfile(resultString);
+		File file = new File("testRunMeReport");
+		@SuppressWarnings("resource")
+		String contents = new Scanner(file).useDelimiter("\\Z").next();
+		// System.out.println(contents);
+		assertEquals(contents, resultString);
 
 	}
 
