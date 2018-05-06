@@ -1,6 +1,6 @@
 package de.htw.ai.kbe.runMeRunner;
 
-import de.htw.ai.kbe.runMeRunner.exampleClassesForTests.MethodsExample;
+import de.htw.ai.kbe.runMeRunner.exampleInterfacesForTest.MethodsExample;
 
 /**
  * Test Methods without Annotation and with Annotation (public, private and

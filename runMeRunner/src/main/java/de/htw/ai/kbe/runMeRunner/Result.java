@@ -10,31 +10,9 @@ import java.util.List;
 
 public class Result {
 
-	/**
-	 * Log File
-	 */
-	private static File runMeReport;
 	private int methodCount;
 	private List<String> methodNamesWithRunMe = new ArrayList<String>();
 	private List<String> methodNamesNotInvokable = new ArrayList<String>();
-
-	/**
-	 * Getter for runMeReport
-	 * 
-	 * @return runMeReport
-	 */
-	public static File getRunMeReport() {
-		return runMeReport;
-	}
-
-	/**
-	 * Setter for runMeReport
-	 * 
-	 * @param outFileName
-	 */
-	public static void setRunMeReport(String outFileName) {
-		Result.runMeReport = new File(outFileName);
-	}
 
 	/**
 	 * Getter for methodCount
@@ -104,13 +82,13 @@ public class Result {
 	/**
 	 * Method to write the result string in output file
 	 * 
-	 * @param string
+	 * @param pathname
 	 * @throws IOException
 	 */
-	public void addStringToLogfile(String string) throws IOException {
+	public void writeResultToLogfile(String pathname) throws IOException {
 		PrintWriter pWriter = null;
 		try {
-			pWriter = new PrintWriter(new BufferedWriter(new FileWriter(getRunMeReport())));
+			pWriter = new PrintWriter(new BufferedWriter(new FileWriter(new File(pathname))));
 			pWriter.println(toString());
 		} catch (IOException ioe) {
 			ioe.printStackTrace();

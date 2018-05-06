@@ -1,4 +1,4 @@
-package de.htw.ai.kbe.runMeRunner.exampleClassesForTests;
+package de.htw.ai.kbe.runMeRunner.exampleInterfacesForTest;
 
 /**
  * Interface with example methods

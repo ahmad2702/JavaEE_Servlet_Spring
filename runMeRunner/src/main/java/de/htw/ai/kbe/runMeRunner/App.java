@@ -51,7 +51,8 @@ public class App {
 				throw new Exception("'classToLoad' ist nicht gefunden!");
 			}
 
-		} catch (PropsReadException e) { // throw new Exception("'classToLoad' istnicht gefunden!");
+		} catch (PropsReadException e) { 
+			// throw new Exception("'classToLoad' ist nicht gefunden!");
 		}
 
 		myClassName = properties.getProperty(CLASS_KEY_NAME);
@@ -61,13 +62,12 @@ public class App {
 		result.setMethodCount(classAnalyse.countMethodsInClass());
 		result.setMethodNamesWithRunMe(classAnalyse.searchAllMethodsWithAnnotation(ANNOTATION_NAME));
 		result.setMethodNamesNotInvokable(classAnalyse.searchAllMethodsWithAnnotationNotInvokable(ANNOTATION_NAME));
-		Result.setRunMeReport(parser.getOutFileName());
 
 		// System.out.println(result.toString());
-		String resultString = result.toString();
-		result.addStringToLogfile(resultString);
+		String pathname = parser.getOutFileName();
+		result.writeResultToLogfile(pathname);
 
-		// // Statement for .jar Test
+		// // Statement for Eclipse Test (muss bearbeitet werden bei Aufruf)
 		// String myClassName = "";
 		// Properties properties = null;
 		//
