@@ -1,8 +1,8 @@
-Gesamtanzahl der Klasse-Methoden: 9
+Gesamtanzahl der Klasse-Methoden: 6
 
-Anzahl der @RunMe-Methoden 2
-Auflistung @RunMe-Methoden: [annonMeth1, annonMeth2]
+Anzahl der @RunMe-Methoden 5
+Auflistung @RunMe-Methoden: [method3, method4, method1, method2, method]
 
-Anzahl der NICHT ausfuehrbaren @RunMe-Methoden 2
-Auflistung der NICHT ausfuehrbaren : [annonMeth1, annonMeth2]
+Anzahl der NICHT ausfuehrbaren @RunMe-Methoden 3
+Auflistung der NICHT ausfuehrbaren : [method3, method4, method1]
 
