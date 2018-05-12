@@ -10,3 +10,7 @@ Kirill Prakhov - s0554624
 |- propsFileUtil       (Praktikumsaufgabe 1)
 
 |- runMeRunner         (Belegaufgabe 1)
+
+|- echoServlet         (Praktikumsaufgabe 2)
+
+|- songsServlet        (Belegaufgabe 2)
