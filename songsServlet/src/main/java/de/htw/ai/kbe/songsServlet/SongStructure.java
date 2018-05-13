@@ -1,5 +1,9 @@
 package de.htw.ai.kbe.songsServlet;
 
+/**
+ * SongStructure
+ *
+ */
 public class SongStructure {
 
 	private Integer id;
@@ -12,6 +16,13 @@ public class SongStructure {
 		super();
 	}
 
+	/**
+	 * @param id
+	 * @param title
+	 * @param artist
+	 * @param album
+	 * @param released
+	 */
 	public SongStructure(Integer id, String title, String artist, String album, Integer released) {
 		this.id = id;
 		this.title = title;
@@ -20,26 +31,44 @@ public class SongStructure {
 		this.released = released;
 	}
 
+	/**
+	 * @return id
+	 */
 	Integer getId() {
 		return id;
 	}
 
+	/**
+	 * @param id
+	 */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
+	/**
+	 * @return title
+	 */
 	public String getTitle() {
 		return title;
 	}
 
+	/**
+	 * @return artist
+	 */
 	public String getArtist() {
 		return artist;
 	}
 
+	/**
+	 * @return album
+	 */
 	public String getAlbum() {
 		return album;
 	}
 
+	/**
+	 * @return released
+	 */
 	public Integer getReleased() {
 		return released;
 	}
