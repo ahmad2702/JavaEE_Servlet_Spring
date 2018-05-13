@@ -1,1 +1,6 @@
-/target/
+target/
+.settings/
+.idea/
+.project
+.classpath
+.DS_Store
