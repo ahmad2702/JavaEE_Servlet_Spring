@@ -1,8 +1,7 @@
 package de.htw.ai.kbe.songsServlet;
 
 /**
- * SongStructure
- *
+ * SongStructure it will be in #SongsServlet used
  */
 public class SongStructure {
 

@@ -21,6 +21,12 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Class SongsServlet uses Servlet-API. This Webservice has an access to
+ * in-Memory music bibliothek (songs.json)
+ * HTTP-Methods: GET and POST
+ *
+ */
 @WebServlet(name = "SongsServlet", urlPatterns = "/*", initParams = {
 		@WebInitParam(name = "songFile", value = "songs.json") })
 
