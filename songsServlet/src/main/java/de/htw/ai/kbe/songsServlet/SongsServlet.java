@@ -47,7 +47,7 @@ public class SongsServlet extends HttpServlet {
 	public void init(ServletConfig servletConfig) throws ServletException {
 		fileOfSongs = servletConfig.getInitParameter("songFile");
 		try {
-			initSongsServlet();
+			initSongsServlet(fileOfSongs);
 		} catch (IOException e) {
 			System.out.println("Json is not readable and can not be validated for SongStructure: " + e);
 		}
@@ -60,11 +60,11 @@ public class SongsServlet extends HttpServlet {
 	 * 
 	 * @throws IOException
 	 */
-	public void initSongsServlet() throws IOException {
+	public void initSongsServlet(String fileOfSongs) throws IOException {
 
-		if (fileOfSongs == null) {
-			fileOfSongs = "songs.json";
-		}
+//		if (fileOfSongs == null) {
+//			fileOfSongs = "songs.json";
+//		}
 		InputStream input = this.getClass().getClassLoader().getResourceAsStream(fileOfSongs);
 		List<SongStructure> songList = new ObjectMapper().readValue(input, new TypeReference<List<SongStructure>>() {
 		});
