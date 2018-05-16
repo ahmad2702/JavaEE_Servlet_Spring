@@ -1,5 +1,7 @@
 package de.htw.ai.kbe.songsServlet;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -17,14 +19,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 /**
- * Class SongsServlet uses Servlet-API. This Webservice has an access to
- * in-Memory music bibliothek (songs.json)
- * HTTP-Methods: GET and POST
+ * Class SongsServlet use Servlet-API. This Webservice has an access to
+ * in-Memory music library (songs.json). Supported HTTP-Methods: GET and POST
  *
  */
 @WebServlet(name = "SongsServlet", urlPatterns = "/*", initParams = {
@@ -61,10 +65,6 @@ public class SongsServlet extends HttpServlet {
 	 * @throws IOException
 	 */
 	public void initSongsServlet(String fileOfSongs) throws IOException {
-
-//		if (fileOfSongs == null) {
-//			fileOfSongs = "songs.json";
-//		}
 		InputStream input = this.getClass().getClassLoader().getResourceAsStream(fileOfSongs);
 		List<SongStructure> songList = new ObjectMapper().readValue(input, new TypeReference<List<SongStructure>>() {
 		});
@@ -101,7 +101,6 @@ public class SongsServlet extends HttpServlet {
 				}
 
 				else if (parametersMap.get("songId") != null) {
-
 					String value = parametersMap.get("songId");
 
 					try {
@@ -134,6 +133,34 @@ public class SongsServlet extends HttpServlet {
 	}
 
 	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.GenericServlet#destroy()
+	 */
+	@Override
+	public void destroy() {
+		try {
+			ObjectMapper objectMap = new ObjectMapper();
+			objectMap.enable(SerializationFeature.INDENT_OUTPUT);
+			String getPathForFile = this.getClass().getClassLoader().getResource(fileOfSongs).getPath();
+			FileOutputStream output = new FileOutputStream(getPathForFile);
+			objectMap.writeValue(output, songMap.values());
+
+		} catch (JsonGenerationException e) {
+			System.out.println("JsonGenerationException: " + e);
+		} catch (JsonMappingException e) {
+			System.out.println("JsonMappingException: " + e);
+		} catch (FileNotFoundException e) {
+			System.out.println("FileNotFoundException: " + e);
+		} catch (IOException e) {
+			System.out.println("IOException: " + e);
+		} catch (UnsupportedOperationException e) {
+			System.out.println("UnsupportedOperationException: " + e);
+		}
+
+	}
+
+	/*
 	 * doPost
 	 * 
 	 * @see
@@ -158,7 +185,6 @@ public class SongsServlet extends HttpServlet {
 				try {
 					SongStructure reqSong = new ObjectMapper().readValue(req, SongStructure.class);
 					reqSong.setId(idForNow.incrementAndGet());
-					// System.out.println(reqSong.getId());
 					songMap.put(idForNow.get(), reqSong);
 					outputPrinter.println("ID for new song:  " + idForNow);
 
