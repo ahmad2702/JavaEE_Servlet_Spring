@@ -40,15 +40,17 @@ public class SongsServlet extends HttpServlet {
 	private AtomicInteger idForNow = null;
 	private String fileOfSongs = null;
 	private static final long serialVersionUID = 1L;
-	private static final String APPLICATION_JSON = "application/json";
-	private static final String TEXT_PLAIN = "text/plain";
+	private static final String FORMAT_JSON = "application/json";
+	private static final String FORMAT_TEXT = "text/plain";
+	
+	private static final String TEXT_CODIERUNG = "UTF-8";
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see javax.servlet.GenericServlet#init(javax.servlet.ServletConfig)
 	 */
-	public void init(ServletConfig servletConfig) throws ServletException {
+	public synchronized void init(ServletConfig servletConfig) throws ServletException {
 		fileOfSongs = servletConfig.getInitParameter("songFile");
 		try {
 			initSongsServlet(fileOfSongs);
@@ -56,7 +58,7 @@ public class SongsServlet extends HttpServlet {
 			System.out.println("Json is not readable and can not be validated for SongStructure: " + e);
 		}
 		idForNow = new AtomicInteger(songMap.size());
-		System.out.println("Initialisation ID: " + idForNow);
+		//System.out.println("Initialisation ID: " + idForNow);
 	}
 
 	/**
@@ -64,7 +66,7 @@ public class SongsServlet extends HttpServlet {
 	 * 
 	 * @throws IOException
 	 */
-	public void initSongsServlet(String fileOfSongs) throws IOException {
+	public synchronized void initSongsServlet(String fileOfSongs) throws IOException {
 		InputStream input = this.getClass().getClassLoader().getResourceAsStream(fileOfSongs);
 		List<SongStructure> songList = new ObjectMapper().readValue(input, new TypeReference<List<SongStructure>>() {
 		});
@@ -80,7 +82,7 @@ public class SongsServlet extends HttpServlet {
 	 * javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public synchronized void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		/**
 		 * Parameters
@@ -92,11 +94,14 @@ public class SongsServlet extends HttpServlet {
 			param = parameters.nextElement();
 			parametersMap.put(param, request.getParameter(param));
 		}
+		
+		response.setContentType(FORMAT_JSON + "; charset=" + TEXT_CODIERUNG);
+		response.setCharacterEncoding(TEXT_CODIERUNG);
 
 		try (PrintWriter outputPrinter = response.getWriter()) {
 			if (parametersMap.size() == 1) {
 				if (parametersMap.get("all") != null && parametersMap.get("all").equals("")) {
-					response.setContentType(APPLICATION_JSON);
+					response.setContentType(FORMAT_JSON);
 					outputPrinter.println(new ObjectMapper().writeValueAsString(songMap));
 				}
 
@@ -107,26 +112,26 @@ public class SongsServlet extends HttpServlet {
 						int valueInt = Integer.parseInt(value);
 
 						if (songMap.get(valueInt) != null) {
-							response.setContentType(APPLICATION_JSON);
+							response.setContentType(FORMAT_JSON);
 							outputPrinter.println(new ObjectMapper().writeValueAsString(songMap.get(valueInt)));
 						} else {
-							response.setContentType(TEXT_PLAIN);
+							response.setContentType(FORMAT_TEXT);
 							outputPrinter.println("Object can not be found");
 						}
 					} catch (NumberFormatException e) {
-						response.setContentType(TEXT_PLAIN);
+						response.setContentType(FORMAT_TEXT);
 						outputPrinter.println("It must be Integer");
 					}
 				} else {
-					response.setContentType(TEXT_PLAIN);
+					response.setContentType(FORMAT_TEXT);
 					outputPrinter.println("Parameter name is not correct");
 				}
 
 			} else if (parametersMap.size() > 1) {
-				response.setContentType(TEXT_PLAIN);
+				response.setContentType(FORMAT_TEXT);
 				outputPrinter.println("Please, set only one parameter");
 			} else {
-				response.setContentType(TEXT_PLAIN);
+				response.setContentType(FORMAT_TEXT);
 				outputPrinter.println("Please, set at least one parameter");
 			}
 		}
@@ -138,7 +143,7 @@ public class SongsServlet extends HttpServlet {
 	 * @see javax.servlet.GenericServlet#destroy()
 	 */
 	@Override
-	public void destroy() {
+	public synchronized void destroy() {
 		try {
 			ObjectMapper objectMap = new ObjectMapper();
 			objectMap.enable(SerializationFeature.INDENT_OUTPUT);
@@ -168,9 +173,9 @@ public class SongsServlet extends HttpServlet {
 	 * javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public synchronized void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-		response.setContentType(TEXT_PLAIN);
+		response.setContentType(FORMAT_TEXT);
 		try (PrintWriter outputPrinter = response.getWriter()) {
 
 			String req = request.getReader().lines().reduce("", (key, value) -> key + value);
@@ -194,4 +199,11 @@ public class SongsServlet extends HttpServlet {
 			}
 		}
 	}
+	
+	public String getFileOfSongs() {
+		return fileOfSongs;
+	}
+
+	
+	
 }
