@@ -62,7 +62,7 @@ public class Parser {
 		songMap = new HashMap<>();
 		songList.stream().forEach(var -> this.songMap.put(idForNow.incrementAndGet(), var));
 		
-		String out = new ObjectMapper().writeValueAsString(songMap);
+		String out = new ObjectMapper().writeValueAsString(songMap.values());
 		return out;
 	}
 	

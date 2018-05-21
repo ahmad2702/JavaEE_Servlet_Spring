@@ -95,6 +95,8 @@ public class SongsServlet extends HttpServlet {
 			parametersMap.put(param, request.getParameter(param));
 		}
 		
+		String formatOfRequest = request.getContentType();
+		
 		response.setContentType(FORMAT_JSON + "; charset=" + TEXT_CODIERUNG);
 		response.setCharacterEncoding(TEXT_CODIERUNG);
 

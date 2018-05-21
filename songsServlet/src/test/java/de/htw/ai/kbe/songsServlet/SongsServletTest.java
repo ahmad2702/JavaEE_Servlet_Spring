@@ -63,6 +63,7 @@ public class SongsServletTest {
     @Test
     public void doGetAllTest() throws IOException {
     		request.addParameter("all", "");
+    		request.setContentType("application/json");
     		songsServlet.doGet(request, response);
     		
     		String json_test = new ObjectMapper().writeValueAsString(songMap).trim();
@@ -77,7 +78,7 @@ public class SongsServletTest {
     		request.addParameter("songId", "6");
     		songsServlet.doGet(request, response);
     		
-    		String json_test = "{\"title\":\"I Took a Pill in Ibiza\",\"artist\":\"Mike Posner\",\"album\":\"At Night, Alone.\",\"released\":2016}";
+    		String json_test = "{\"id\":6,\"title\":\"I Took a Pill in Ibiza\",\"artist\":\"Mike Posner\",\"album\":\"At Night, Alone.\",\"released\":2016}";
     		String textResponse = response.getContentAsString().trim();
     		
     		assertEquals("application/json", response.getContentType());

@@ -33,7 +33,7 @@ public class SongStructure {
 	/**
 	 * @return id
 	 */
-	Integer getId() {
+	public Integer getId() {
 		return id;
 	}
 
