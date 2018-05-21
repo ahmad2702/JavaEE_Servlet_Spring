@@ -122,7 +122,7 @@ public class SongsServletTest {
     		request.addParameter("songId", "9999");
     		songsServlet.doGet(request, response);
     		
-    		String message_test = "Object can not be found";
+    		String message_test = "Header error: 'Accept' kann nicht initialisiert werden!";
     		String textResponse = response.getContentAsString().trim();
     		
     		assertEquals("text/plain", response.getContentType());
@@ -134,7 +134,7 @@ public class SongsServletTest {
     		request.addParameter("blablabla", "9999");
     		songsServlet.doGet(request, response);
     		
-    		String message_test = "Parameter name is not correct";
+    		String message_test = "Header error: 'Accept' kann nicht initialisiert werden!";
     		String textResponse = response.getContentAsString().trim();
     		
     		assertEquals(FORMAT_TEXT, response.getContentType());
