@@ -12,7 +12,7 @@ import java.util.Map;
 import javax.servlet.ServletException;
 
 import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockServletConfig;
@@ -20,15 +20,13 @@ import org.springframework.mock.web.MockServletConfig;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.junit.Test;
-
 /**
  * Unit test for simple App.
  */
 public class SongsServletTest {
 	
 	private SongsServlet songsServlet;
-	private Map<Integer, SongStructure> songMap = null;
+	private Map<Integer, Song> songMap = null;
 	private String fileOfSongs = "songs.json";
 	
 	private static final String FORMAT_JSON = "application/json";
@@ -49,9 +47,9 @@ public class SongsServletTest {
         songsServlet.init(config);
         
         InputStream input = this.getClass().getClassLoader().getResourceAsStream(fileOfSongs);
-		List<SongStructure> songList = null;
+		List<Song> songList = null;
 		try {
-			songList = new ObjectMapper().readValue(input, new TypeReference<List<SongStructure>>() {
+			songList = new ObjectMapper().readValue(input, new TypeReference<List<Song>>() {
 			});
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -139,15 +137,39 @@ public class SongsServletTest {
     		String message_test = "Parameter name is not correct";
     		String textResponse = response.getContentAsString().trim();
     		
-    		assertEquals("text/plain", response.getContentType());
+    		assertEquals(FORMAT_TEXT, response.getContentType());
     		assertEquals(textResponse, message_test);
     }
     
     @Test
     public void doPostJsonTest() throws IOException {
-		String payloadData = "{\"title\":\"Cansdfsdf?t Stop the Feeling\",\"artist\":\"Justin Timberlake\",\"album\":\"Trolls\",\"released\":2016}";
-
+		String payloadData = "{\"title\":\"Stop the Feeling\",\"artist\":\"Justin Timberlake\",\"album\":\"Trolls\",\"released\":2016}";
+		
     		request.setContent(payloadData.getBytes());
+    		request.addHeader("accept", FORMAT_TEXT);
+    		request.addHeader("content-type", FORMAT_JSON);
+		songsServlet.doPost(request, response);
+		
+		String textResponse = response.getContentAsString().trim();
+		
+		assertTrue(textResponse.contains("ID for new song:  "));
+    }
+    
+    @Test
+    public void doPostXmlTest() throws IOException {
+		String payloadData = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n" + 
+				"<songs>\n" + 
+				"<song>\n" + 
+				"        <title>Noch ein Titel</title>\n" + 
+				"        <artist>Noch ein Kuenstler</artist>\n" + 
+				"        <album>Noch ein Album</album>\n" + 
+				"        <released>2018</released>\n" + 
+				"</song>\n" + 
+				"</songs>";
+		
+    		request.setContent(payloadData.getBytes());
+    		request.addHeader("accept", FORMAT_TEXT);
+    		request.addHeader("content-type", FORMAT_XML);
 		songsServlet.doPost(request, response);
 		
 		String textResponse = response.getContentAsString().trim();

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<songs>
+<song>
+        <title>Noch ein Titel</title>
+        <artist>Noch ein Kuenstler</artist>
+        <album>Noch ein Album</album>
+        <released>2018</released>
+</song>
+</songs>

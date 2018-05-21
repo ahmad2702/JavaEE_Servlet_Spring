@@ -2,9 +2,7 @@ package de.htw.ai.kbe.songsServlet;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement( name = "song" )
@@ -62,7 +60,7 @@ public class Song
 
 	public String getAlbum() {
 		return album;
-	}
+	} 
 
 	public void setAlbum(String album) {
 		this.album = album;
@@ -76,4 +74,10 @@ public class Song
 		this.released = released;
 	}
 
+	@Override
+	public String toString() {
+		return " [id=" + id + ", title=" + title + ", artist=" + artist + ", album=" + album + ", released="
+				+ released + "] ";
+	}
+	
 }

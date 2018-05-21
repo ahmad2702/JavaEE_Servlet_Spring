@@ -17,7 +17,7 @@ public class Songs{
 
     public void setSong (Song song)
     {
-        songs.add(song);
+        songs.add(song); 
     }
 
 	public void setSongs(List<Song> songs) {
@@ -28,4 +28,10 @@ public class Songs{
 		return songs;
 	}
 
+	@Override
+	public String toString() {
+		return "Songs " + songs;
+	}
+
+	
 }

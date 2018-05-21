@@ -197,7 +197,7 @@ public class SongsServlet extends HttpServlet {
 		} catch (UnsupportedOperationException e) {
 			System.out.println("UnsupportedOperationException: " + e);
 		}
-
+ 
 	}
 	
 	
@@ -209,7 +209,7 @@ public class SongsServlet extends HttpServlet {
 	 * javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest,
 	 * javax.servlet.http.HttpServletResponse)
 	 */
-	@Override
+	@Override 
 	public synchronized void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		response.setContentType(FORMAT_TEXT);
@@ -225,13 +225,36 @@ public class SongsServlet extends HttpServlet {
 			} else {
 
 				try {
-					Song reqSong = new ObjectMapper().readValue(req, Song.class);
-					reqSong.setId(idForNow.incrementAndGet());
-					songMap.put(idForNow.get(), reqSong);
-					outputPrinter.println("ID for new song:  " + idForNow);
+					
+					String formatOfAccept = request.getHeader("accept");
+					String formatOfContentType = request.getContentType();
+					
+					String out = "";
+					
+					if(formatOfContentType.equals(FORMAT_JSON)) {
+						Song reqSong = new ObjectMapper().readValue(req, Song.class);
+						reqSong.setId(idForNow.incrementAndGet());
+						songMap.put(idForNow.get(), reqSong);
+						out = "ID for new song:  " + idForNow;
+						
+					} else if(formatOfContentType.equals(FORMAT_XML)) {
+						Songs songs = Converter.getSongsFromXmlString(req);
+						Song reqSong = songs.getSongs().get(0);
+						reqSong.setId(idForNow.incrementAndGet());
+						songMap.put(idForNow.get(), reqSong);
+						out = "ID for new song:  " + idForNow;
+
+					} else {
+						out = "Format wird nicht akzeptiert!!!";
+					}
+					
+					response.setContentType(formatOfAccept);
+					outputPrinter.println(out);
 
 				} catch (JsonParseException e) {
-					outputPrinter.println("You have tried to send not correctly validated song");
+					outputPrinter.println("You have tried to send not correctly (json) validated song");
+				} catch (JAXBException e) {
+					outputPrinter.println("You have tried to send not correctly (xml) validated song");
 				}
 			}
 		}
