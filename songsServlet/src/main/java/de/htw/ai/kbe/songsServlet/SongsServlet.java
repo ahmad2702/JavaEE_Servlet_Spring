@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.JAXBException;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -36,11 +38,12 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class SongsServlet extends HttpServlet {
 
-	private Map<Integer, SongStructure> songMap = null;
+	private Map<Integer, Song> songMap = null;
 	private AtomicInteger idForNow = null;
 	private String fileOfSongs = null;
 	private static final long serialVersionUID = 1L;
 	private static final String FORMAT_JSON = "application/json";
+	private static final String FORMAT_XML = "application/xml";
 	private static final String FORMAT_TEXT = "text/plain";
 	
 	private static final String TEXT_CODIERUNG = "UTF-8";
@@ -55,7 +58,7 @@ public class SongsServlet extends HttpServlet {
 		try {
 			initSongsServlet(fileOfSongs);
 		} catch (IOException e) {
-			System.out.println("Json is not readable and can not be validated for SongStructure: " + e);
+			System.out.println("Json is not readable and can not be validated for Song: " + e);
 		}
 		idForNow = new AtomicInteger(songMap.size());
 		//System.out.println("Initialisation ID: " + idForNow);
@@ -68,7 +71,7 @@ public class SongsServlet extends HttpServlet {
 	 */
 	public synchronized void initSongsServlet(String fileOfSongs) throws IOException {
 		InputStream input = this.getClass().getClassLoader().getResourceAsStream(fileOfSongs);
-		List<SongStructure> songList = new ObjectMapper().readValue(input, new TypeReference<List<SongStructure>>() {
+		List<Song> songList = new ObjectMapper().readValue(input, new TypeReference<List<Song>>() {
 		});
 		songMap = new HashMap<>();
 		songList.stream().forEach(var -> this.songMap.put(var.getId(), var));
@@ -95,16 +98,31 @@ public class SongsServlet extends HttpServlet {
 			parametersMap.put(param, request.getParameter(param));
 		}
 		
-		String formatOfRequest = request.getContentType();
+		String formatOfRequest = request.getHeader("accept");
 		
-		response.setContentType(FORMAT_JSON + "; charset=" + TEXT_CODIERUNG);
+		response.setContentType(formatOfRequest + "; charset=" + TEXT_CODIERUNG);
 		response.setCharacterEncoding(TEXT_CODIERUNG);
 
 		try (PrintWriter outputPrinter = response.getWriter()) {
 			if (parametersMap.size() == 1) {
 				if (parametersMap.get("all") != null && parametersMap.get("all").equals("")) {
-					response.setContentType(FORMAT_JSON);
-					outputPrinter.println(new ObjectMapper().writeValueAsString(songMap));
+					
+					String out = "";
+					
+					if(formatOfRequest.equals(FORMAT_JSON)) {
+						out = new ObjectMapper().writeValueAsString(songMap.values());
+						
+					} else if(formatOfRequest.equals(FORMAT_XML)) {
+						Songs songs = new Songs();
+						List<Song> list = new ArrayList<Song>(songMap.values());
+						songs.setSongs(list);
+						out = Converter.getXmlFromSongs(songs);
+					} else {
+						out = "Format wird nicht akzeptiert!";
+					}
+
+					response.setContentType(formatOfRequest);
+					outputPrinter.println(out);
 				}
 
 				else if (parametersMap.get("songId") != null) {
@@ -114,8 +132,20 @@ public class SongsServlet extends HttpServlet {
 						int valueInt = Integer.parseInt(value);
 
 						if (songMap.get(valueInt) != null) {
-							response.setContentType(FORMAT_JSON);
-							outputPrinter.println(new ObjectMapper().writeValueAsString(songMap.get(valueInt)));
+							
+							String out = "";
+							
+							if(formatOfRequest.equals(FORMAT_JSON)) {
+								out = new ObjectMapper().writeValueAsString(songMap.get(valueInt));
+							} else {
+								Songs songs = new Songs();
+								Song song = songMap.get(valueInt);
+								songs.setSong(song);
+								out = Converter.getXmlFromSongs(songs);
+							}
+
+							response.setContentType(formatOfRequest);
+							outputPrinter.println(out);
 						} else {
 							response.setContentType(FORMAT_TEXT);
 							outputPrinter.println("Object can not be found");
@@ -136,6 +166,9 @@ public class SongsServlet extends HttpServlet {
 				response.setContentType(FORMAT_TEXT);
 				outputPrinter.println("Please, set at least one parameter");
 			}
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -166,6 +199,8 @@ public class SongsServlet extends HttpServlet {
 		}
 
 	}
+	
+	
 
 	/*
 	 * doPost
@@ -190,7 +225,7 @@ public class SongsServlet extends HttpServlet {
 			} else {
 
 				try {
-					SongStructure reqSong = new ObjectMapper().readValue(req, SongStructure.class);
+					Song reqSong = new ObjectMapper().readValue(req, Song.class);
 					reqSong.setId(idForNow.incrementAndGet());
 					songMap.put(idForNow.get(), reqSong);
 					outputPrinter.println("ID for new song:  " + idForNow);

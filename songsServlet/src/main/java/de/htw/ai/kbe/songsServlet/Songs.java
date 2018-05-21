@@ -20,18 +20,12 @@ public class Songs{
         songs.add(song);
     }
 
+	public void setSongs(List<Song> songs) {
+		this.songs = songs;
+	}
+
 	public List<Song> getSongs() {
 		return songs;
 	}
 
-	@Override
-    public String toString()
-    {
-    		String output = "";
-    		
-    		for (int i = 0; i < songs.size(); i++) {
-    			output += songs.get(i) + "\n";
-    		}
-        return output;
-    }
 }

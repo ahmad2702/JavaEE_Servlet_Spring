@@ -80,12 +80,6 @@ public class Parser {
 	}
 	
 	public String getXmlFromSongs(Songs songs) throws JAXBException {
-		Song song = new Song();
-		song.setArtist("sdfsdf");
-		song.setTitle("sdfsdf");
-		song.setAlbum("sdfsdfsdf");
-		song.setReleased("2093");
-		
 		JAXBContext context = JAXBContext.newInstance(Songs.class);
 
         Marshaller marshaller = context.createMarshaller();
@@ -96,8 +90,6 @@ public class Parser {
         String xmlString = sw.toString();
 		
         return xmlString;
-		
-		
 	}
 
 	
