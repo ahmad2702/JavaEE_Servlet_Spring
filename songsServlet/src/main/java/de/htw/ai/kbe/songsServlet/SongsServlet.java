@@ -40,7 +40,6 @@ public class SongsServlet extends HttpServlet {
 	private static final String FORMAT_JSON = "application/json";
 	private static final String FORMAT_XML = "application/xml";
 	private static final String FORMAT_TEXT = "text/plain";
-	
 	private static final String TEXT_CODIERUNG = "UTF-8";
 
 	/*
@@ -56,7 +55,7 @@ public class SongsServlet extends HttpServlet {
 			System.out.println("Json is not readable and can not be validated for Song: " + e);
 		}
 		idForNow = new AtomicInteger(songMap.size());
-		//System.out.println("Initialisation ID: " + idForNow);
+		// System.out.println("Initialisation ID: " + idForNow);
 	}
 
 	/**
@@ -92,28 +91,27 @@ public class SongsServlet extends HttpServlet {
 			param = parameters.nextElement();
 			parametersMap.put(param, request.getParameter(param));
 		}
-		
+
 		String formatOfRequest = request.getHeader("accept");
-		
-		if(formatOfRequest==null || (!formatOfRequest.equals(FORMAT_JSON) && !formatOfRequest.equals(FORMAT_XML))) {
+
+		if (formatOfRequest == null || (!formatOfRequest.equals(FORMAT_JSON) && !formatOfRequest.equals(FORMAT_XML))) {
 			response.setContentType(FORMAT_TEXT);
 			response.getWriter().println("Header error: 'Accept' kann nicht initialisiert werden!");
-			return;	// hier als break
+			return; // here like a breakpoint
 		}
-		
+
 		response.setContentType(formatOfRequest + "; charset=" + TEXT_CODIERUNG);
 		response.setCharacterEncoding(TEXT_CODIERUNG);
 
 		try (PrintWriter outputPrinter = response.getWriter()) {
 			if (parametersMap.size() == 1) {
 				if (parametersMap.get("all") != null && parametersMap.get("all").equals("")) {
-					
 					String out = "";
-					
-					if(formatOfRequest.equals(FORMAT_JSON)) {
+
+					if (formatOfRequest.equals(FORMAT_JSON)) {
 						out = new ObjectMapper().writeValueAsString(songMap.values());
-						
-					} else if(formatOfRequest.equals(FORMAT_XML)) {
+
+					} else if (formatOfRequest.equals(FORMAT_XML)) {
 						Songs songs = new Songs();
 						List<Song> list = new ArrayList<Song>(songMap.values());
 						songs.setSongs(list);
@@ -121,7 +119,6 @@ public class SongsServlet extends HttpServlet {
 					} else {
 						out = "Format wird nicht akzeptiert!";
 					}
-
 					response.setContentType(formatOfRequest);
 					outputPrinter.println(out);
 				}
@@ -133,10 +130,9 @@ public class SongsServlet extends HttpServlet {
 						int valueInt = Integer.parseInt(value);
 
 						if (songMap.get(valueInt) != null) {
-							
 							String out = "";
-							
-							if(formatOfRequest.equals(FORMAT_JSON)) {
+
+							if (formatOfRequest.equals(FORMAT_JSON)) {
 								out = new ObjectMapper().writeValueAsString(songMap.get(valueInt));
 							} else {
 								Songs songs = new Songs();
@@ -168,12 +164,10 @@ public class SongsServlet extends HttpServlet {
 				outputPrinter.println("Please, set at least one parameter");
 			}
 		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	
 	/*
 	 * doPost
 	 * 
@@ -181,7 +175,7 @@ public class SongsServlet extends HttpServlet {
 	 * javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest,
 	 * javax.servlet.http.HttpServletResponse)
 	 */
-	@Override 
+	@Override
 	public synchronized void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		response.setContentType(FORMAT_TEXT);
@@ -197,19 +191,18 @@ public class SongsServlet extends HttpServlet {
 			} else {
 
 				try {
-					
+
 					String formatOfAccept = request.getHeader("accept");
 					String formatOfContentType = request.getContentType();
-					
 					String out = "";
-					
-					if(formatOfContentType.equals(FORMAT_JSON)) {
+
+					if (formatOfContentType.equals(FORMAT_JSON)) {
 						Song reqSong = new ObjectMapper().readValue(req, Song.class);
 						reqSong.setId(idForNow.incrementAndGet());
 						songMap.put(idForNow.get(), reqSong);
 						out = "ID for new song:  " + idForNow;
-						
-					} else if(formatOfContentType.equals(FORMAT_XML)) {
+
+					} else if (formatOfContentType.equals(FORMAT_XML)) {
 						Songs songs = Converter.getSongsFromXmlString(req);
 						Song reqSong = songs.getSongs().get(0);
 						reqSong.setId(idForNow.incrementAndGet());
@@ -219,7 +212,6 @@ public class SongsServlet extends HttpServlet {
 					} else {
 						out = "Format wird nicht akzeptiert!!!";
 					}
-					
 					response.setContentType(formatOfAccept);
 					outputPrinter.println(out);
 
@@ -231,11 +223,9 @@ public class SongsServlet extends HttpServlet {
 			}
 		}
 	}
-	
+
 	public String getFileOfSongs() {
 		return fileOfSongs;
 	}
 
-	
-	
 }

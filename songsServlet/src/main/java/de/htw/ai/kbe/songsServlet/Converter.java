@@ -11,30 +11,45 @@ import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.io.IOUtils;
 
+/**
+ * Class Converter
+ * 
+ */
 public class Converter {
-	
+
+	/**
+	 * @param songs
+	 * @return xmlString
+	 * @throws JAXBException
+	 */
 	public static String getXmlFromSongs(Songs songs) throws JAXBException {
 		JAXBContext context = JAXBContext.newInstance(Songs.class);
 
-        Marshaller marshaller = context.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.FALSE);
-        
-        StringWriter sw = new StringWriter();
-        marshaller.marshal(songs, sw);
-        String xmlString = sw.toString();
-		
-        return xmlString;
+		Marshaller marshaller = context.createMarshaller();
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.FALSE);
+
+		StringWriter sw = new StringWriter();
+		marshaller.marshal(songs, sw);
+		String xmlString = sw.toString();
+
+		return xmlString;
 	}
-	
-	public static Songs getSongsFromXmlString(String xmlText) throws JAXBException, IOException {		
+
+	/**
+	 * @param xmlText
+	 * @return songs
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
+	public static Songs getSongsFromXmlString(String xmlText) throws JAXBException, IOException {
 		InputStream in = IOUtils.toInputStream(xmlText, "UTF-8");
 
 		JAXBContext jaxbContext = JAXBContext.newInstance(Songs.class);
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-		
+
 		Songs songs = (Songs) jaxbUnmarshaller.unmarshal(in);
-		
+
 		return songs;
 	}
-	
+
 }
