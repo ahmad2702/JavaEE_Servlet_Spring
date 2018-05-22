@@ -1,5 +1,7 @@
 package de.htw.ai.kbe.songsServlet;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -19,9 +21,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBException;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 /**
  * Class SongsServlet use Servlet-API. This Webservice has an access to
@@ -227,5 +232,29 @@ public class SongsServlet extends HttpServlet {
 	public String getFileOfSongs() {
 		return fileOfSongs;
 	}
+
+	
+	@Override
+	 public void destroy() {
+	 		try {
+	 			ObjectMapper objectMap = new ObjectMapper();
+	 			objectMap.enable(SerializationFeature.INDENT_OUTPUT);
+	 			String getPathForFile = this.getClass().getClassLoader().getResource(fileOfSongs).getPath();
+	 			FileOutputStream output = new FileOutputStream(getPathForFile);
+	 			objectMap.writeValue(output, songMap.values());
+	 
+	 		} catch (JsonGenerationException e) {
+	 			System.out.println("JsonGenerationException: " + e);
+	 		} catch (JsonMappingException e) {
+	 			System.out.println("JsonMappingException: " + e);
+	 		} catch (FileNotFoundException e) {
+	 			System.out.println("FileNotFoundException: " + e);
+	 		} catch (IOException e) {
+	 			System.out.println("IOException: " + e);
+	 		} catch (UnsupportedOperationException e) {
+	 			System.out.println("UnsupportedOperationException: " + e);
+	 		}
+	 
+	 }
 
 }
