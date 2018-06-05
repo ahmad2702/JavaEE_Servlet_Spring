@@ -1,34 +1,18 @@
 package de.htwBerlin.ai.kbe.bean;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
-
+/**
+ * class User
+ *
+ */
 @XmlRootElement(name = "user")
-@Entity
-@Table(name = "User")
 public class User {
 
-	
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@Id
 	private String userId;
 	private String lastName;
 	private String firstName;
-	
-
-	public User(Integer id, String userId, String lastName, String firstName) {
-		super();
-		this.id = id;
-		this.userId = userId;
-		this.lastName = lastName;
-		this.firstName = firstName;
-	}
 
 	public User() {
 	}
@@ -42,7 +26,7 @@ public class User {
 	}
 
 	public String getUserId() {
-		return this.userId;
+		return userId;
 	}
 
 	public void setUserId(String userId) {
