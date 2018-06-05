@@ -14,3 +14,7 @@ Kirill Prakhov - s0554624
 |- echoServlet         (Praktikumsaufgabe 2)
 
 |- songsServlet        (Belegaufgabe 2)
+
+|- helloJAXRS          (Praktikumsaufgabe 3)
+
+|- songsRX             (Belegaufgabe 3)
