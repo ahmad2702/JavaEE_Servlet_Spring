@@ -42,9 +42,9 @@ public class AuthWebService {
 		if (user != null) {
 			String token = request.getSession().getId();
 			authContainer.setUserIdByToken(token, userId);
-			return Response.status(200).entity("Your Token is " + token).build();
+			return Response.status(200).entity("Your token is: " + token).build();
 		} else {
-			return Response.status(Response.Status.FORBIDDEN).entity("No User found with id " + userId).build();
+			return Response.status(Response.Status.FORBIDDEN).entity("No user found with id: " + userId).build();
 		}
 	}
 

@@ -8,10 +8,7 @@ public class AuthBox {
 	private static Map<String, String> tokenMap = new ConcurrentHashMap<String, String>();
 
 	public boolean authenticate(String authToken) {
-		if (tokenMap.containsKey(authToken)) {
-			return true;
-		}
-		return false;
+		return tokenMap.containsKey(authToken);
 	}
 
 	public String getUserIdByToken(String token) {
