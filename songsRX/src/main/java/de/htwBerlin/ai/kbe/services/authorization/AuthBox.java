@@ -1,4 +1,4 @@
-package de.htwBerlin.ai.kbe.services;
+package de.htwBerlin.ai.kbe.services.authorization;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

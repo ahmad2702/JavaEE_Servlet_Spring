@@ -1,4 +1,4 @@
-package de.htwBerlin.ai.kbe.services;
+package de.htwBerlin.ai.kbe.services.songs;
 
 import java.util.Collection;
 
@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import de.htwBerlin.ai.kbe.bean.Song;
+import de.htwBerlin.ai.kbe.services.authorization.AuthWebService;
 import de.htwBerlin.ai.kbe.storage.SongsDB;
 
 //http://localhost:8080/songsRX/rest/songs 

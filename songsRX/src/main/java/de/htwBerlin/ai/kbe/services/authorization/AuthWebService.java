@@ -1,4 +1,4 @@
-package de.htwBerlin.ai.kbe.services;
+package de.htwBerlin.ai.kbe.services.authorization;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;

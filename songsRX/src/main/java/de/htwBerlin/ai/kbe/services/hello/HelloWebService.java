@@ -1,4 +1,4 @@
-package de.htwBerlin.ai.kbe.services;
+package de.htwBerlin.ai.kbe.services.hello;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
