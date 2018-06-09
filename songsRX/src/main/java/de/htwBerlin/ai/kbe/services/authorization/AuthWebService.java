@@ -21,17 +21,6 @@ public class AuthWebService {
 	@Context
 	HttpServletRequest request;
 
-//	/*
-//	 *  für testing,
-//	 */
-//	@GET
-//	@Path("/user")
-//	@Produces({ MediaType.APPLICATION_JSON })
-//	public Collection<User> getUsers() {
-//		return UserDB.getInstance().getAllUsers();
-//
-//	}
-
 	@GET
 	@Path("/")
 	@Produces({ MediaType.TEXT_PLAIN })
