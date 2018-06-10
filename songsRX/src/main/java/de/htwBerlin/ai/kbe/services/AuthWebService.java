@@ -32,6 +32,7 @@ public class AuthWebService {
 //
 //	}
 
+	//TODO: maybe add {userID}
 	@GET
 	@Path("/")
 	@Produces({ MediaType.TEXT_PLAIN })
