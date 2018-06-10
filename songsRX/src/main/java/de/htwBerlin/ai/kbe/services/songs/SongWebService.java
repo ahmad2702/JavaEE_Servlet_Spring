@@ -1,4 +1,4 @@
-package de.htwBerlin.ai.kbe.services;
+package de.htwBerlin.ai.kbe.services.songs;
 
 import java.util.Collection;
 
@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import de.htwBerlin.ai.kbe.bean.Song;
+import de.htwBerlin.ai.kbe.services.authorization.AuthWebService;
 import de.htwBerlin.ai.kbe.storage.SongsDB;
 
 //http://localhost:8080/songsRX/rest/songs 
@@ -38,7 +39,7 @@ public class SongWebService {
 
 	@GET
 	@Path("/{id}")
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response getSong(@PathParam("id") Integer id) {
 
 		Song song = SongsDB.getInstance().getSong(id);
@@ -57,7 +58,9 @@ public class SongWebService {
 		// only id and released field can be null or empty
 		if (song != null && song.getTitle() != null && song.getArtist() != null && song.getAlbum() != null) {
 			System.out.println("createsong: Received Song: " + song.toString());
-			return Response.status(Response.Status.CREATED).entity(SongsDB.getInstance().addSong(song)).build();
+			int idForNewSong = SongsDB.getInstance().addSong(song);
+			String urlForNewSong = "http://localhost:8080/songsRX/rest/songs/"+idForNewSong;
+			return Response.status(Response.Status.CREATED).entity(urlForNewSong).build();
 		} else {
 			return Response.status(Response.Status.NOT_FOUND).entity("Can't create a this Song bad Payload ").build();
 		}
@@ -74,7 +77,7 @@ public class SongWebService {
 			if (id == song.getId()) {
 				boolean check = SongsDB.getInstance().updateSong(song, id);
 				if (check) {
-					return Response.status(Response.Status.ACCEPTED).entity("Sucessfully updated Song ").build();
+					return Response.status(Response.Status.NO_CONTENT).entity("Sucessfully updated Song ").build();
 				} else {
 					return Response.status(Response.Status.NOT_FOUND)
 							.entity("Can't update this song. Song doesn't exists ").build();
@@ -83,7 +86,7 @@ public class SongWebService {
 				Song tmp = SongsDB.getInstance().getSong(id);
 				if (tmp != null) {
 					SongsDB.getInstance().updateSong(song, id);
-					return Response.status(Response.Status.ACCEPTED).entity("Sucessfully updated Song ").build();
+					return Response.status(Response.Status.NO_CONTENT).entity("Sucessfully updated Song ").build();
 				} else {
 					return Response.status(Response.Status.NOT_FOUND)
 							.entity("Can't update this song. Song doesn't exists ").build();

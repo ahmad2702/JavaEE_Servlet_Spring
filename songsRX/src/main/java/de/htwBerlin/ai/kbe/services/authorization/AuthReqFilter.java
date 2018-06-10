@@ -1,4 +1,4 @@
-package de.htwBerlin.ai.kbe.services;
+package de.htwBerlin.ai.kbe.services.authorization;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
