@@ -8,6 +8,7 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.test.JerseyTest;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class AuthorizationTest extends JerseyTest{
@@ -31,6 +32,7 @@ public class AuthorizationTest extends JerseyTest{
 	}
 	
 	// ?????????????????????
+	@Ignore
 	@Test
 	public void authPositiveTest() {
 		String userID = "mmuster";
