@@ -3,6 +3,7 @@ package de.htwBerlin.ai.kbe.services;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 
@@ -46,6 +47,40 @@ public class AuthorizationTest extends JerseyTest{
 		assertTrue(responseText.contains(messageErwartet));
 	}
 	
+	@Test
+	public void getAllSongsWithoutAuthTest() {
+		Response putResponse = target("/songs").request().get();
+		int responseStatus = putResponse.getStatus();
+		
+		assertTrue(401==responseStatus);
+	}
 	
+	@Test
+	public void getOneWithoutAuthTest() {
+		Response putResponse = target("/songs/1").request().get();
+		int responseStatus = putResponse.getStatus();
+		
+		assertTrue(401==responseStatus);
+	}
+	
+	@Test
+	public void putWithoutAuthTest() {
+		String xmlPayload = "";
+
+		Response putResponse = target("/songs/1").request().put(Entity.xml(xmlPayload));
+		int responseStatus = putResponse.getStatus();
+		
+		assertTrue(401==responseStatus);
+	}
+	
+	@Test
+	public void postWithoutAuthTest() {
+		String xmlPayload = "";
+
+		Response putResponse = target("/songs").request().post(Entity.xml(xmlPayload));
+		int responseStatus = putResponse.getStatus();
+		
+		assertTrue(401==responseStatus);
+	}
 	
 }
