@@ -18,7 +18,10 @@ import de.htwBerlin.ai.kbe.bean.Song;
 import de.htwBerlin.ai.kbe.services.authorization.AuthWebService;
 import de.htwBerlin.ai.kbe.storage.SongsDB;
 
-//http://localhost:8080/songsRX/rest/songs 
+/**
+ * class SongWebService
+ * http://localhost:8080/songsRX/rest/songs
+ */
 @Path("/songs")
 public class SongWebService {
 
@@ -26,6 +29,11 @@ public class SongWebService {
 	@SuppressWarnings("unused")
 	private AuthWebService auth = new AuthWebService();
 
+	/**
+	 * Response getAllSongs
+	 * 
+	 * @return getAllSongs
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response getAllSongs() {
@@ -37,6 +45,12 @@ public class SongWebService {
 		return Response.ok(entity).build();
 	}
 
+	/**
+	 * Response getSong
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@GET
 	@Path("/{id}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -51,21 +65,34 @@ public class SongWebService {
 		}
 	}
 
+	/**
+	 * Response createSong; 
+	 * id and released can be null
+	 * 
+	 * @param song
+	 * @return
+	 */
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response createSong(Song song) {
-		// only id and released field can be null or empty
 		if (song != null && song.getTitle() != null && song.getArtist() != null && song.getAlbum() != null) {
 			System.out.println("createsong: Received Song: " + song.toString());
 			int idForNewSong = SongsDB.getInstance().addSong(song);
-			String urlForNewSong = "http://localhost:8080/songsRX/rest/songs/"+idForNewSong;
+			String urlForNewSong = "http://localhost:8080/songsRX/rest/songs/" + idForNewSong;
 			return Response.status(Response.Status.CREATED).entity(urlForNewSong).build();
 		} else {
 			return Response.status(Response.Status.NOT_FOUND).entity("Can't create a this Song bad Payload ").build();
 		}
 	}
 
+	/**
+	 * Response updateSong
+	 * 
+	 * @param id
+	 * @param song
+	 * @return
+	 */
 	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("/{id}")
@@ -99,6 +126,12 @@ public class SongWebService {
 
 	}
 
+	/**
+	 * Response delete
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.TEXT_PLAIN)

@@ -10,6 +10,11 @@ import javax.ws.rs.core.Response;
 @Path("/hello")
 public class HelloWebService {
 
+	/**
+	 * Response getMsg
+	 * @param name
+	 * @return
+	 */
 	@GET
 	@Path("/{name}")
 	@Produces(MediaType.TEXT_HTML)

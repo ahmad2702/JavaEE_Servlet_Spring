@@ -19,13 +19,13 @@ public class SongsDB {
 
 	private static Map<Integer, Song> storage;
 	private static SongsDB instance = null;
-
 	private final String SONGFILENAME = "songs.json";
-
 	private AtomicInteger currentID = null;
-
 	private List<Song> songList = new ArrayList<Song>();
 
+	/**
+	 * Init Exception
+	 */
 	private SongsDB() {
 		try {
 			initializeSongStore(SONGFILENAME);
@@ -34,6 +34,11 @@ public class SongsDB {
 		}
 	}
 
+	/**
+	 * getInstance
+	 * 
+	 * @return instance
+	 */
 	public synchronized static SongsDB getInstance() {
 		if (instance == null) {
 			instance = new SongsDB();
@@ -41,6 +46,12 @@ public class SongsDB {
 		return instance;
 	}
 
+	/**
+	 * initializeSongStore
+	 * 
+	 * @param songFilename
+	 * @throws IOException
+	 */
 	private void initializeSongStore(String songFilename) throws IOException {
 
 		if (songFilename == null || songFilename.equals("")) {
@@ -60,10 +71,21 @@ public class SongsDB {
 
 	}
 
+	/**
+	 * getSong
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public Song getSong(Integer id) {
 		return storage.get(id);
 	}
 
+	/**
+	 * getAllSongs
+	 * 
+	 * @return
+	 */
 	public Collection<Song> getAllSongs() {
 		System.out.println(storage);
 		System.out.println(songList);
@@ -71,14 +93,24 @@ public class SongsDB {
 		return storage.values();
 	}
 
+	/**
+	 * addSong
+	 * 
+	 * @param song
+	 * @return
+	 */
 	public Integer addSong(Song song) {
 		song.setId(currentID.incrementAndGet());
 		storage.put(song.getId(), song);
 		return song.getId();
 	}
-	
-	/*
-	 * true if song exists, false if not exists
+
+	/**
+	 * updateSong
+	 * 
+	 * @param song
+	 * @param id
+	 * @return true if song exists, false if not exists
 	 */
 	public boolean updateSong(Song song, Integer id) {
 		if (storage.get(id) != null) {
@@ -89,6 +121,11 @@ public class SongsDB {
 		return false;
 	}
 
+	/**
+	 * deleteSong
+	 * @param id
+	 * @return
+	 */
 	public Song deleteSong(Integer id) {
 		Song song = storage.get(id);
 		if (song != null) {

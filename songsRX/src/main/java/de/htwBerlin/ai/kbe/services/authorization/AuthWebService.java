@@ -12,6 +12,10 @@ import javax.ws.rs.core.Response;
 import de.htwBerlin.ai.kbe.bean.User;
 import de.htwBerlin.ai.kbe.storage.UserDB;
 
+/**
+ * class AuthWebService
+ *
+ */
 @Path("/auth")
 public class AuthWebService {
 
@@ -21,6 +25,12 @@ public class AuthWebService {
 	@Context
 	HttpServletRequest request;
 
+	/**
+	 * Response getSong
+	 * 
+	 * @param userId
+	 * @return
+	 */
 	@GET
 	@Path("/")
 	@Produces({ MediaType.TEXT_PLAIN })
@@ -37,10 +47,22 @@ public class AuthWebService {
 		}
 	}
 
+	/**
+	 * getUserIdByToken
+	 * 
+	 * @param token
+	 * @return
+	 */
 	public String getUserIdByToken(String token) {
 		return authContainer.getUserIdByToken(token);
 	}
 
+	/**
+	 * authenticate
+	 * 
+	 * @param authToken
+	 * @return
+	 */
 	public boolean authenticate(String authToken) {
 		String userId = authContainer.getUserIdByToken(authToken);
 		if (userId != null) {

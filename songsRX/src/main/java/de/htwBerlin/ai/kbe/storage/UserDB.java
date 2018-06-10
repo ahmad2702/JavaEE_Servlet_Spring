@@ -20,6 +20,9 @@ public class UserDB {
 	private final String USERFILENAME = "user.json";
 	private List<User> userList = new ArrayList<User>();
 
+	/**
+	 * Init Exception
+	 */
 	private UserDB() {
 		try {
 			initializeUserStore(USERFILENAME);
@@ -28,6 +31,10 @@ public class UserDB {
 		}
 	}
 
+	/**
+	 * getInstance
+	 * @return
+	 */
 	public synchronized static UserDB getInstance() {
 		if (instance == null) {
 			instance = new UserDB();
@@ -35,6 +42,11 @@ public class UserDB {
 		return instance;
 	}
 
+	/**
+	 * initializeUserStore
+	 * @param userFilename
+	 * @throws IOException
+	 */
 	private void initializeUserStore(String userFilename) throws IOException {
 
 		if (userFilename == null || userFilename.equals("")) {
@@ -49,10 +61,19 @@ public class UserDB {
 
 	}
 
+	/**
+	 * getUser
+	 * @param id
+	 * @return
+	 */
 	public User getUser(String id) {
 		return storage.get(id);
 	}
 
+	/**
+	 * getAllUsers
+	 * @return
+	 */
 	public Collection<User> getAllUsers() {
 		return storage.values();
 	}
