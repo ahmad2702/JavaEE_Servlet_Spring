@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="contactsDB-PU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        
+        <class>de.htwBerlin.ai.kbe.data.Address</class>
+        <class>de.htwBerlin.ai.kbe.data.Contact</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" 
+                      value="jdbc:mysql://db.f4.htw-berlin.de:3306/_schueler__ContactsDB"/>
+            <property name="javax.persistence.jdbc.user" value="schueler"/>
+            <property name="javax.persistence.jdbc.password" value="schueler"/>
+
+            <!--Hibernate properties-->
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="false"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+        </properties>
+    </persistence-unit>
+</persistence>
