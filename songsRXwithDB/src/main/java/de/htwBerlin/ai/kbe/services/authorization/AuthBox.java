@@ -3,37 +3,27 @@ package de.htwBerlin.ai.kbe.services.authorization;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class AuthBox {
+import javax.inject.Singleton;
+
+@Singleton
+public class AuthBox implements InterfaceAuthContainer {
 
 	private static Map<String, String> tokenMap = new ConcurrentHashMap<String, String>();
 
-	/**
-	 * authenticate
-	 * 
-	 * @param authToken
-	 * @return
-	 */
+	@Override
 	public boolean authenticate(String authToken) {
-		return tokenMap.containsKey(authToken);
+		if (tokenMap.containsKey(authToken)) {
+			return true;
+		}
+		return false;
 	}
 
-	/**
-	 * getUserIdByToken
-	 * 
-	 * @param token
-	 * @return
-	 */
+	@Override
 	public String getUserIdByToken(String token) {
 		return tokenMap.get(token);
 	}
 
-	/**
-	 * setUserIdByToken
-	 * 
-	 * @param token
-	 * @param userId
-	 * @return
-	 */
+	@Override
 	public String setUserIdByToken(String token, String userId) {
 		return tokenMap.put(token, userId);
 	}

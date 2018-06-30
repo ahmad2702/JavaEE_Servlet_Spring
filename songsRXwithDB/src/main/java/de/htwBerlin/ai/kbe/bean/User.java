@@ -1,103 +1,70 @@
 package de.htwBerlin.ai.kbe.bean;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- * class User
- *
- */
-
 @XmlRootElement(name = "user")
+@Entity
+@Table(name = "User")
 public class User {
 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private String userId;
+	@Id
+	private String user_id;
 	private String lastName;
 	private String firstName;
+
+	public User(Integer id, String userId, String lastName, String firstName) {
+		super();
+		this.id = id;
+		this.user_id = userId;
+		this.lastName = lastName;
+		this.firstName = firstName;
+	}
 
 	public User() {
 	}
 
-	/**
-	 * getId
-	 * 
-	 * @return
-	 */
 	public Integer getId() {
 		return id;
 	}
 
-	/**
-	 * setId
-	 * 
-	 * @param id
-	 */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	/**
-	 * getUserId
-	 * 
-	 * @return
-	 */
 	public String getUserId() {
-		return userId;
+		return this.user_id;
 	}
 
-	/**
-	 * setUserId
-	 * 
-	 * @param userId
-	 */
 	public void setUserId(String userId) {
-		this.userId = userId;
+		this.user_id = userId;
 	}
 
-	/**
-	 * getLastName
-	 * 
-	 * @return
-	 */
 	public String getLastName() {
 		return lastName;
 	}
 
-	/**
-	 * setLastName
-	 * 
-	 * @param lastName
-	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
-	/**
-	 * getFirstName
-	 * 
-	 * @return
-	 */
 	public String getFirstName() {
 		return firstName;
 	}
 
-	/**
-	 * setFirstName
-	 * 
-	 * @param firstName
-	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", userId=" + userId + ", lastName=" + lastName + ", firstName=" + firstName + "]";
+		return "User [id=" + id + ", userId=" + user_id + ", lastName=" + lastName + ", firstName=" + firstName + "]";
 	}
 
 }
