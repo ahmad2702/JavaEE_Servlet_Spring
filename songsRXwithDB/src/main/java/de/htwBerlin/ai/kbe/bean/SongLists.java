@@ -32,7 +32,7 @@ public class SongLists {
 	private List<Song> songs;
 
 	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "userId")
 	private User user;
 
 	public SongLists(boolean securityType, User user, List<Song> songs) {
@@ -63,11 +63,11 @@ public class SongLists {
 		return this.user;
 	}
 
-	public boolean isPublic() {
+	public boolean securityType() {
 		return securityType;
 	}
 
-	public void setPublic(boolean isPublic) {
+	public void securityType(boolean isPublic) {
 		this.securityType = isPublic;
 	}
 

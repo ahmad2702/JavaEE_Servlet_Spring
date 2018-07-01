@@ -15,14 +15,14 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@Id
-	private String user_id;
+	private String userId;
 	private String lastName;
 	private String firstName;
 
 	public User(Integer id, String userId, String lastName, String firstName) {
 		super();
 		this.id = id;
-		this.user_id = userId;
+		this.userId = userId;
 		this.lastName = lastName;
 		this.firstName = firstName;
 	}
@@ -39,11 +39,11 @@ public class User {
 	}
 
 	public String getUserId() {
-		return this.user_id;
+		return this.userId;
 	}
 
 	public void setUserId(String userId) {
-		this.user_id = userId;
+		this.userId = userId;
 	}
 
 	public String getLastName() {
@@ -64,7 +64,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", userId=" + user_id + ", lastName=" + lastName + ", firstName=" + firstName + "]";
+		return "User [id=" + id + ", userId=" + userId + ", lastName=" + lastName + ", firstName=" + firstName + "]";
 	}
 
 }

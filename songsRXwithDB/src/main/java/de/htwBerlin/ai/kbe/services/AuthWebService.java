@@ -1,4 +1,4 @@
-package de.htwBerlin.ai.kbe.services.authorization;
+package de.htwBerlin.ai.kbe.services;
 
 import javax.ws.rs.core.Response;
 import javax.inject.Inject;

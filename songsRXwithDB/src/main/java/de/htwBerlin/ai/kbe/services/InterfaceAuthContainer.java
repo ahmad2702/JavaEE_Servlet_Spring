@@ -1,4 +1,4 @@
-package de.htwBerlin.ai.kbe.services.authorization;
+package de.htwBerlin.ai.kbe.services;
 
 public interface InterfaceAuthContainer {
 

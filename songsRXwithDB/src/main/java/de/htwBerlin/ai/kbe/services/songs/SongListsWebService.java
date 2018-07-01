@@ -16,7 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import de.htwBerlin.ai.kbe.bean.SongLists;
-import de.htwBerlin.ai.kbe.services.authorization.InterfaceAuthContainer;
+import de.htwBerlin.ai.kbe.services.InterfaceAuthContainer;
 import de.htwBerlin.ai.kbe.storage.InterfaceSongListsDAO;
 
 //http://localhost:8080/songsRX/rest/userId 

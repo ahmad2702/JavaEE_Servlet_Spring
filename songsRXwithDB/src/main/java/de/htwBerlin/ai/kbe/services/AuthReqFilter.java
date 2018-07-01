@@ -1,4 +1,4 @@
-package de.htwBerlin.ai.kbe.services.authorization;
+package de.htwBerlin.ai.kbe.services;
 
 import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;

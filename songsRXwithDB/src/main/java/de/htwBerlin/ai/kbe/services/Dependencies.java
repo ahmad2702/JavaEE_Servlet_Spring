@@ -6,8 +6,6 @@ import javax.persistence.Persistence;
 
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
-import de.htwBerlin.ai.kbe.services.authorization.AuthBox;
-import de.htwBerlin.ai.kbe.services.authorization.InterfaceAuthContainer;
 import de.htwBerlin.ai.kbe.storage.DBSongListsDAO;
 import de.htwBerlin.ai.kbe.storage.DBSongsDAO;
 import de.htwBerlin.ai.kbe.storage.DBUserDAO;
