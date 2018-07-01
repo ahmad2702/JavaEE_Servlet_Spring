@@ -17,7 +17,7 @@ import de.htwBerlin.ai.kbe.bean.Song;
 
 import de.htwBerlin.ai.kbe.storage.InterfaceSongsDAO;
 
-//http://localhost:8080/songsRX/rest/songs 
+//http://localhost:8080/songsRXwithDB/rest/songs 
 @Path("/songs")
 public class SongWebService {
 

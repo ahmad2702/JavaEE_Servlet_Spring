@@ -14,38 +14,34 @@ import de.htwBerlin.ai.kbe.bean.User;
 import de.htwBerlin.ai.kbe.rest.InterfaceAuthContainer;
 import de.htwBerlin.ai.kbe.storage.InterfaceUserDAO;
 
-//http://localhost:8080/songsRX/rest/auth?userId=eschuler
+//http://localhost:8080/songsRXwithDB/rest/auth?userId=eschuler
 @Path("/auth")
 public class AuthWebService {
-	
-	private InterfaceAuthContainer authContainer ;
-	private InterfaceUserDAO userDao ;
-	
-	@Inject
-	public AuthWebService(InterfaceAuthContainer authContainer,InterfaceUserDAO userDao ) {
-		this.authContainer = authContainer;
-		this.userDao = userDao;
-	}
-	
-	
-	@Context 
-	HttpServletRequest request;
 
+	private InterfaceAuthContainer authContainer;
+	private InterfaceUserDAO userDAO;
+
+	@Inject
+	public AuthWebService(InterfaceAuthContainer authContainer, InterfaceUserDAO userDAO) {
+		this.authContainer = authContainer;
+		this.userDAO = userDAO;
+	}
+
+	@Context
+	HttpServletRequest request;
 
 	@GET
 	@Path("/")
-	@Produces({ MediaType.TEXT_PLAIN})
+	@Produces({ MediaType.TEXT_PLAIN })
 	public Response getSong(@QueryParam("userId") String userId) {
-		User user = userDao.findUserById(userId);
-		
-		if(user != null ) {
-        String token = request.getSession().getId();
-        System.out.println(authContainer);
-        authContainer.setUserIdByToken(token, userId);
-		return Response
-				   .status(200)
-				   .entity("Your Token is "+ token).build();
-		}else {
+		User user = userDAO.findUserById(userId);
+
+		if (user != null) {
+			String token = request.getSession().getId();
+			System.out.println(authContainer);
+			authContainer.setUserIdByToken(token, userId);
+			return Response.status(200).entity("Your Token is " + token).build();
+		} else {
 			return Response.status(Response.Status.FORBIDDEN).entity("No User found with id " + userId).build();
 		}
 	}
@@ -56,11 +52,10 @@ public class AuthWebService {
 
 	public boolean authenticate(String authToken) {
 		String userId = authContainer.getUserIdByToken(authToken);
-		if(userId != null) {
+		if (userId != null) {
 			return true;
 		}
 		return false;
 	}
 
-		  	
 }

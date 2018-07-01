@@ -58,7 +58,7 @@ public class DBSongsDAO implements InterfaceSongsDAO {
 			e.printStackTrace();
 			System.out.println("Error adding Song: " + e.getMessage());
 			entTransaction.rollback();
-			throw new PersistenceException("Could not persist entity: " + e.toString());
+			throw new PersistenceException("No persist entity: " + e.toString());
 		} finally {
 			entMan.close();
 		}
@@ -72,7 +72,7 @@ public class DBSongsDAO implements InterfaceSongsDAO {
 		try {
 			Song = entMan.find(Song.class, id);
 			if (Song != null) {
-				System.out.println("Deleting: " + Song.getId() + " with firstName: ");
+				System.out.println("Deleting: " + Song.getId() + " ");
 				entTransaction.begin();
 				entMan.remove(Song);
 				entTransaction.commit();
@@ -81,7 +81,7 @@ public class DBSongsDAO implements InterfaceSongsDAO {
 			return false;
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Error removing Song: " + e.getMessage());
+			System.out.println("Error to remove Song: " + e.getMessage());
 			entTransaction.rollback();
 			throw new PersistenceException("Could not remove entity: " + e.toString());
 		} finally {

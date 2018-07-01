@@ -52,7 +52,7 @@ public class SongListsWebService {
 	public Response getSongListById(@HeaderParam("Authorization") String token, @PathParam("id") String id,
 			@PathParam("songList_id") Integer songListId) {
 
-		System.out.println("getAllSongLists: Returning SongLists by given id !");
+		System.out.println("getAllSongLists: Returning SongLists for this id");
 		SongLists s;
 		if (authBox.getUserIdByToken(token).equals(id)) {
 			s = songListsDAO.findSongListById(id, songListId, false);
@@ -78,7 +78,7 @@ public class SongListsWebService {
 			if (SongLists != null && SongLists.getSongs() != null) {
 				try {
 					int res = songListsDAO.saveSongLists(SongLists);
-					return Response.created(new URI("/songsRX/rest/userId/" + id + "/songLists/" + res)).build();
+					return Response.created(new URI("/songsRXwithDB/rest/userId/" + id + "/songLists/" + res)).build();
 				} catch (Exception e) {
 					return Response.status(Response.Status.BAD_REQUEST).entity("Song doenstn't exists ").build();
 				}
@@ -99,10 +99,10 @@ public class SongListsWebService {
 				return Response.status(Response.Status.NO_CONTENT).entity("Sucessfully deleted SongLists").build();
 			} else {
 				return Response.status(Response.Status.NOT_FOUND)
-						.entity("Can't delete this SongLists. SongLists doesn't exists").build();
+						.entity("Can't delete this SongLists. SongLists is not exists").build();
 			}
 		}
-		return Response.status(Response.Status.UNAUTHORIZED).entity("Not authorized to delete  other users playlist ")
+		return Response.status(Response.Status.UNAUTHORIZED).entity("Not authorized to delete other users from playlist ")
 				.build();
 	}
 }
