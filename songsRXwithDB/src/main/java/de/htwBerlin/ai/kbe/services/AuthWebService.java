@@ -11,6 +11,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import de.htwBerlin.ai.kbe.bean.User;
+import de.htwBerlin.ai.kbe.rest.InterfaceAuthContainer;
 import de.htwBerlin.ai.kbe.storage.InterfaceUserDAO;
 
 //http://localhost:8080/songsRX/rest/auth?userId=eschuler

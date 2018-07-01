@@ -1,4 +1,4 @@
-package de.htwBerlin.ai.kbe.services.songs;
+package de.htwBerlin.ai.kbe.services;
 
 import java.util.Collection;
 

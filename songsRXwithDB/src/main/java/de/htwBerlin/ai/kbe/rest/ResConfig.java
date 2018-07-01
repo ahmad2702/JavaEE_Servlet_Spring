@@ -1,4 +1,4 @@
-package de.htwBerlin.ai.kbe.services;
+package de.htwBerlin.ai.kbe.rest;
 
 import org.glassfish.jersey.server.ResourceConfig;
 

@@ -1,4 +1,4 @@
-package de.htwBerlin.ai.kbe.services.songs;
+package de.htwBerlin.ai.kbe.services;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -16,7 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import de.htwBerlin.ai.kbe.bean.SongLists;
-import de.htwBerlin.ai.kbe.services.InterfaceAuthContainer;
+import de.htwBerlin.ai.kbe.rest.InterfaceAuthContainer;
 import de.htwBerlin.ai.kbe.storage.InterfaceSongListsDAO;
 
 //http://localhost:8080/songsRX/rest/userId 

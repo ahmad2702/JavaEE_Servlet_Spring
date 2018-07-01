@@ -1,4 +1,4 @@
-package de.htwBerlin.ai.kbe.services;
+package de.htwBerlin.ai.kbe.rest;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
