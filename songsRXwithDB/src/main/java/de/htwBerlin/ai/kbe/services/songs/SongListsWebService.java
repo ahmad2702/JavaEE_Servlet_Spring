@@ -23,13 +23,13 @@ import de.htwBerlin.ai.kbe.storage.InterfaceSongListsDAO;
 @Path("/userId")
 public class SongListsWebService {
 
-	private InterfaceSongListsDAO SongListsDao;
+	private InterfaceSongListsDAO songListsDAO;
 	@Inject
-	private InterfaceAuthContainer authContainer;
+	private InterfaceAuthContainer authBox;
 
 	@Inject
 	public SongListsWebService(InterfaceSongListsDAO dao) {
-		this.SongListsDao = dao;
+		this.songListsDAO = dao;
 	}
 
 	@GET
@@ -39,11 +39,11 @@ public class SongListsWebService {
 			@PathParam("id") String id) {
 
 		System.out.println("getAllSongLists: Returning all SongLists!");
-		System.out.println(SongListsDao.findAllSongLists(id, false));
-		if (authContainer.getUserIdByToken(token).equals(id)) {
-			return SongListsDao.findAllSongLists(id, false);
+		System.out.println(songListsDAO.findAllSongLists(id, false));
+		if (authBox.getUserIdByToken(token).equals(id)) {
+			return songListsDAO.findAllSongLists(id, false);
 		}
-		return SongListsDao.findAllSongLists(id, true);
+		return songListsDAO.findAllSongLists(id, true);
 	}
 
 	@GET
@@ -54,10 +54,10 @@ public class SongListsWebService {
 
 		System.out.println("getAllSongLists: Returning SongLists by given id !");
 		SongLists s;
-		if (authContainer.getUserIdByToken(token).equals(id)) {
-			s = SongListsDao.findSongListById(id, songListId, false);
+		if (authBox.getUserIdByToken(token).equals(id)) {
+			s = songListsDAO.findSongListById(id, songListId, false);
 		} else {
-			s = SongListsDao.findSongListById(id, songListId, true);
+			s = songListsDAO.findSongListById(id, songListId, true);
 		}
 		if (s == null) {
 			return Response.status(Response.Status.NOT_FOUND).entity("No SongList found with id " + songListId).build();
@@ -73,11 +73,11 @@ public class SongListsWebService {
 	public Response createSongLists(@HeaderParam("Authorization") String token, @PathParam("id") String id,
 			SongLists SongLists) throws URISyntaxException {
 		System.out.println(SongLists);
-		if (authContainer.getUserIdByToken(token).equals(id)
-				&& SongLists.getUser().getUserId().equals(authContainer.getUserIdByToken(token))) {
+		if (authBox.getUserIdByToken(token).equals(id)
+				&& SongLists.getUser().getUserId().equals(authBox.getUserIdByToken(token))) {
 			if (SongLists != null && SongLists.getSongs() != null) {
 				try {
-					int res = SongListsDao.saveSongLists(SongLists);
+					int res = songListsDAO.saveSongLists(SongLists);
 					return Response.created(new URI("/songsRX/rest/userId/" + id + "/songLists/" + res)).build();
 				} catch (Exception e) {
 					return Response.status(Response.Status.BAD_REQUEST).entity("Song doenstn't exists ").build();
@@ -92,10 +92,10 @@ public class SongListsWebService {
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response delete(@HeaderParam("Authorization") String token, @PathParam("id") String id,
 			@PathParam("list_id") int list_id) {
-		System.out.println(authContainer.getUserIdByToken(token));
+		System.out.println(authBox.getUserIdByToken(token));
 		System.out.println(id);
-		if (authContainer.getUserIdByToken(token).equals(id)) {
-			if (SongListsDao.deleteSongLists(list_id)) {
+		if (authBox.getUserIdByToken(token).equals(id)) {
+			if (songListsDAO.deleteSongLists(list_id)) {
 				return Response.status(Response.Status.NO_CONTENT).entity("Sucessfully deleted SongLists").build();
 			} else {
 				return Response.status(Response.Status.NOT_FOUND)

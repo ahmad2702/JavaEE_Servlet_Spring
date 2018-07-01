@@ -21,25 +21,25 @@ import de.htwBerlin.ai.kbe.storage.InterfaceSongsDAO;
 @Path("/songs")
 public class SongWebService {
 
-	private InterfaceSongsDAO songsDao;
+	private InterfaceSongsDAO songsDAO;
 
 	@Inject
 	public SongWebService(InterfaceSongsDAO dao) {
-		this.songsDao = dao;
+		this.songsDAO = dao;
 	}
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Collection<Song> getAllSongs() {
 		System.out.println("getAllSongs: Returning all Songs!");
-		return songsDao.findAllSongs();
+		return songsDAO.findAllSongs();
 	}
 
 	@GET
 	@Path("/{id}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response getSong(@PathParam("id") Integer id) {
-		Song song = songsDao.findSongById(id);
+		Song song = songsDAO.findSongById(id);
 		if (song != null) {
 			System.out.println("getsong: Returning song for id " + id);
 			return Response.ok(song).build();
@@ -54,7 +54,7 @@ public class SongWebService {
 	public Response createSong(Song song) {
 		System.out.println(song);
 		if (song != null && song.getTitle() != null && song.getArtist() != null) {
-			int newId = songsDao.saveSong(song);
+			int newId = songsDAO.saveSong(song);
 			return Response.status(Response.Status.CREATED).entity("New Song Created with " + newId).build();
 		} else {
 			return Response.status(Response.Status.NOT_FOUND).entity("Can't create a this Song bad Payload ").build();
@@ -65,7 +65,7 @@ public class SongWebService {
 	@Path("/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response delete(@PathParam("id") Integer id) {
-		boolean check = songsDao.deleteSong(id);
+		boolean check = songsDAO.deleteSong(id);
 		if (check) {
 			return Response.status(Response.Status.NO_CONTENT).entity("Sucessfully deleted Song").build();
 		} else {

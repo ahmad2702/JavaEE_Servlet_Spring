@@ -24,15 +24,15 @@ public class SongLists {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private boolean securityType;
-	//1 is public, 2 is private
+	//1 is public, 0 is private
 
 	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-	@JoinTable(name = "SongListsMapping", joinColumns = { @JoinColumn(name = "songlists_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "song_id") })
+	@JoinTable(name = "SongListsMapping", joinColumns = { @JoinColumn(name = "Songlists_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "Song_id") })
 	private List<Song> songs;
 
 	@ManyToOne
-	@JoinColumn(name = "userId")
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	public SongLists(boolean securityType, User user, List<Song> songs) {
@@ -81,7 +81,7 @@ public class SongLists {
 
 	@Override
 	public String toString() {
-		return "SongLists [id=" + id + ", isPublic=" + securityType + ", songs=" + songs + ", user=" + user + "]";
+		return "SongLists [id=" + id + ", securityType=" + securityType + ", songs=" + songs + ", user=" + user + "]";
 	}
 
 }

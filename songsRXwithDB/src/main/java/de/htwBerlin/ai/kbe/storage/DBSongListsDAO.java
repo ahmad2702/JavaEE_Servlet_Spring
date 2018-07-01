@@ -36,14 +36,14 @@ public class DBSongListsDAO implements InterfaceSongListsDAO {
 	}
 
 	@Override
-	public Collection<SongLists> findAllSongLists(String id, boolean isPublic) {
+	public Collection<SongLists> findAllSongLists(String id, boolean securityType) {
 		EntityManager entMan = entManFact.createEntityManager();
 		try {
 
 			TypedQuery<SongLists> query = entMan.createQuery("SELECT c FROM SongLists c where user_id = " + "'" + id + "'",
 					SongLists.class);
-			if (isPublic) {
-				query = entMan.createQuery("SELECT c FROM SongLists c where user_id = " + "'" + id + "' and isPublic=1 ",
+			if (securityType) {
+				query = entMan.createQuery("SELECT c FROM SongLists c where user_id = " + "'" + id + "' and securityType=1 ",
 						SongLists.class);
 			}
 			return query.getResultList();
@@ -53,16 +53,16 @@ public class DBSongListsDAO implements InterfaceSongListsDAO {
 	}
 
 	@Override
-	public SongLists findSongListById(String id, Integer songListId, boolean isPublic) {
+	public SongLists findSongListById(String id, Integer songListId, boolean securityType) {
 		EntityManager entMan = entManFact.createEntityManager();
 		try {
 
 			TypedQuery<SongLists> query = entMan.createQuery(
 					"SELECT c FROM SongLists c where user_id = " + "'" + id + "' and id=" + songListId,
 					SongLists.class);
-			if (isPublic) {
+			if (securityType) {
 				query = entMan.createQuery("SELECT  c FROM SongLists c where user_id = " + "'" + id
-						+ "' and isPublic=1 and id=" + songListId, SongLists.class);
+						+ "' and securityType=1 and id=" + songListId, SongLists.class);
 			}
 			return query.getSingleResult();
 		} catch (NoResultException e) {
