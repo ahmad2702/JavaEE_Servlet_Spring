@@ -18,3 +18,7 @@ Kirill Prakhov - s0554624
 |- helloJAXRS          (Praktikumsaufgabe 3)
 
 |- songsRX             (Belegaufgabe 3)
+
+|- contactsJPA         (Praktikumsaufgabe 4)
+
+|- songsRXwithDB       (Belegaufgabe 4)
