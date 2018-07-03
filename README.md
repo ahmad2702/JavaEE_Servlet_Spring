@@ -6,6 +6,7 @@ Kirill Prakhov - s0554624
 
 
 # Folder
+
 |- propsFileUtil       (Praktikumsaufgabe 1)
 
 |- runMeRunner         (Belegaufgabe 1)
@@ -20,4 +21,4 @@ Kirill Prakhov - s0554624
 
 |- contactsJPA         (Praktikumsaufgabe 4)
 
-|- songsRX_MySQL       (Belegaufgabe 4)
+|- songsRX_MySQL(tmp)  (Belegaufgabe 4)
