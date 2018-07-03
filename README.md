@@ -21,4 +21,4 @@ Kirill Prakhov - s0554624
 
 |- contactsJPA         (Praktikumsaufgabe 4)
 
-|- songsRXwithDB       (Belegaufgabe 4)
+|- songsRX_MySQL       (Belegaufgabe 4)
