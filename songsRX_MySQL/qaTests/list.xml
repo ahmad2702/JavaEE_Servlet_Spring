@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<songlists>
+	<securityType>false</securityType>
+	<user>
+		<id>2</id>
+		<userId>mmuster</userId>
+		<firstName>Muster</firstName>
+		<lastName>Maxime</lastName>
+	</user>
+		<songs>
+			<id>2</id>
+			<title>Mom</title>
+			<artist>Meghan Trainor, Kelli Trainor</artist>
+			<album>Thank You</album>
+			<released>2016</released>
+		</songs>
+		<songs>
+			<id>1</id>
+			<title>Can’t Stop the Feeling</title>
+			<artist>Justin Timberlake</artist>
+			<album>Trolls</album>
+			<released>2016</released>
+		</songs>
+</songlists>
