@@ -8,4 +8,8 @@ public interface InterfaceAuthContainer {
 
 	public String setUserIdByToken(String token, String userId);
 
+	public void setIDByToken(String token, Integer integer);
+
+	public Integer getIDbyToken(String token);
+
 }

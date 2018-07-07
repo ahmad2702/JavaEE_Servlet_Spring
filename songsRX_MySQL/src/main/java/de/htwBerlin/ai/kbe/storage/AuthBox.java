@@ -9,6 +9,8 @@ import javax.inject.Singleton;
 public class AuthBox implements InterfaceAuthContainer {
 
 	private static Map<String, String> tokenMap = new ConcurrentHashMap<String, String>();
+	private static Map<String, Integer> tokenMapForId = new ConcurrentHashMap<String, Integer>();
+
 
 	@Override
 	public boolean authenticate(String authToken) {
@@ -27,5 +29,17 @@ public class AuthBox implements InterfaceAuthContainer {
 	public String setUserIdByToken(String token, String userId) {
 		return tokenMap.put(token, userId);
 	}
+
+	@Override
+	public void setIDByToken(String token, Integer id) {
+		tokenMapForId.put(token, id);
+	}
+
+	@Override
+	public Integer getIDbyToken(String token) {
+		return tokenMapForId.get(token);
+	}
+	
+	
 
 }

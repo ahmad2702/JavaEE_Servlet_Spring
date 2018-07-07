@@ -40,6 +40,7 @@ public class AuthWebService {
 			String token = request.getSession().getId();
 			System.out.println(authContainer);
 			authContainer.setUserIdByToken(token, userId);
+			authContainer.setIDByToken(token, user.getId());
 			return Response.status(200).entity("Your Token is " + token).build();
 		} else {
 			return Response.status(Response.Status.FORBIDDEN).entity("No User found with id " + userId).build();

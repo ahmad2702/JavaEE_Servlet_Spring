@@ -1,6 +1,5 @@
 package de.htwBerlin.ai.kbe.api;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
 
@@ -46,14 +45,14 @@ public class SongListsWebService {
 			
 			list = songListsDAO.findAllSongLists(id, true);
 			if(list == null) {
-				Response.status(Response.Status.NOT_FOUND).entity("Für diese userId existieren keine Listen!").build();
+				Response.status(Response.Status.NOT_FOUND).build();
 			}
 			
 		}else {
 			
 			list = songListsDAO.findAllSongLists(id, false);
 			if(list == null) {
-				Response.status(Response.Status.NOT_FOUND).entity("Für diese userId existieren keine (public) Listen!").build();
+				Response.status(Response.Status.NOT_FOUND).build();
 			}
 			
 		}
@@ -72,7 +71,7 @@ public class SongListsWebService {
 		songs = songListsDAO.findSongListById(authBox.getUserIdByToken(token), songListId);
 		
 		if (songs == null) {
-			return Response.status(Response.Status.NOT_FOUND).entity("Keine Liste mit dieser ID gefunden!").build();
+			return Response.status(Response.Status.NOT_FOUND).build();
 		} 
 			
 		return Response.ok(songs).build();
@@ -84,22 +83,24 @@ public class SongListsWebService {
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response createSongLists(@HeaderParam("Authorization") String token, @PathParam("id") String id,
-			SongLists SongLists) throws URISyntaxException {
-		System.out.println(SongLists);
-		if (authBox.getUserIdByToken(token).equals(id)
-				&& SongLists.getUser().getUserId().equals(authBox.getUserIdByToken(token))) {
-			if (SongLists != null && SongLists.getSongs() != null) {
+			SongLists songLists) throws URISyntaxException {
+
+		if (authBox.getUserIdByToken(token).equals(id) && songLists.getUser().getUserId().equals(authBox.getUserIdByToken(token))
+				&& songLists.getUser().getId()==authBox.getIDbyToken(token)) {
+			Response response = null;
+			if (songLists != null && songLists.getSongs() != null) {
 				try {
-					int res = songListsDAO.saveSongLists(SongLists);
-					String link = new URI("/songsRXwithDB/rest/userId/" + id + "/songLists/" + res).getHost();
-					System.out.println("Link: " + link);
-					return Response.ok("/songsRXwithDB/rest/userId/" + id + "/songLists/" + res).build();
+					int res = songListsDAO.saveSongLists(songLists);
+					response = Response.ok("/songsRXwithDB/rest/userId/" + id + "/songLists/" + res).build();
 				} catch (Exception e) {
-					return Response.status(Response.Status.BAD_REQUEST).entity("Song doenstn't exists ").build();
+					response = Response.status(Response.Status.BAD_REQUEST).entity("Song doenstn't exists ").build();
 				}
 			}
+			return response;
+		} else {
+			return Response.status(Response.Status.UNAUTHORIZED).entity("Not authorized to save for other user ").build();
 		}
-		return Response.status(Response.Status.UNAUTHORIZED).entity("Not authorized to save for other user ").build();
+		
 	}
 
 	@DELETE
