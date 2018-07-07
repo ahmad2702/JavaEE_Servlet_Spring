@@ -14,7 +14,7 @@ import de.htwBerlin.ai.kbe.data.User;
 import de.htwBerlin.ai.kbe.storage.InterfaceAuthContainer;
 import de.htwBerlin.ai.kbe.storage.InterfaceUserDAO;
 
-//http://localhost:8080/contactsJPA/rest/auth?userId=eschuler
+//http://localhost:8080/songsRX/rest/auth?userId=eschuler
 @Path("/auth")
 public class AuthWebService {
 
