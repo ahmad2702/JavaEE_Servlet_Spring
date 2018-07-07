@@ -1,0 +1,7 @@
+drop database if exists kbe_songs;
+create database kbe_songs;
+use kbe_songs;
+CREATE TABLE IF NOT EXISTS `Song`(`id` INT NOT NULL,`title` VARCHAR(100),`artist` VARCHAR(100),`album` VARCHAR(100),`released` YEAR,PRIMARY KEY(`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `User`(`id` INT NOT NULL AUTO_INCREMENT,`userId` VARCHAR(10) NOT NULL,`firstName` VARCHAR(100) NOT NULL,`lastName` VARCHAR(100) NOT NULL,PRIMARY KEY(`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `SongLists`(`id` INT NOT NULL AUTO_INCREMENT,`securityType` BOOLEAN NOT NULL,`user_id` INT NOT NULL,PRIMARY KEY(`id`),FOREIGN KEY(user_id) REFERENCES User(id)) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `SongListsMapping`(`songlists_id` INT NOT NULL,`song_id` INT NOT NULL,FOREIGN KEY(songlists_id) REFERENCES SongLists(id),FOREIGN KEY(song_id) REFERENCES Song(id)) ENGINE=InnoDB DEFAULT CHARSET=utf8;
