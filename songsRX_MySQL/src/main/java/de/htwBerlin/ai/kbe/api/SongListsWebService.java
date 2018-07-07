@@ -13,6 +13,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -20,7 +21,7 @@ import de.htwBerlin.ai.kbe.data.SongLists;
 import de.htwBerlin.ai.kbe.storage.InterfaceAuthContainer;
 import de.htwBerlin.ai.kbe.storage.InterfaceSongListsDAO;
 
-//http://localhost:8080/contactsJPA/rest/userId 
+//http://localhost:8080/songsRX/rest/userId 
 @Path("/userId")
 public class SongListsWebService {
 
@@ -36,36 +37,46 @@ public class SongListsWebService {
 	@GET
 	@Path("/{id}/songLists")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Collection<SongLists> getAllSongLists(@HeaderParam("Authorization") String token,
+	public Response getAllSongLists(@HeaderParam("Authorization") String token,
 			@PathParam("id") String id) {
-
-		System.out.println("getAllSongLists: Returning all SongLists!");
-		System.out.println(songListsDAO.findAllSongLists(id, false));
+		
+		GenericEntity<Collection<SongLists>> list = null;
+		
 		if (authBox.getUserIdByToken(token).equals(id)) {
-			return songListsDAO.findAllSongLists(id, false);
+			
+			list = songListsDAO.findAllSongLists(id, true);
+			if(list == null) {
+				Response.status(Response.Status.NOT_FOUND).entity("Für diese userId existieren keine Listen!").build();
+			}
+			
+		}else {
+			
+			list = songListsDAO.findAllSongLists(id, false);
+			if(list == null) {
+				Response.status(Response.Status.NOT_FOUND).entity("Für diese userId existieren keine (public) Listen!").build();
+			}
+			
 		}
-		return songListsDAO.findAllSongLists(id, true);
+		
+		return Response.ok(list).build();
 	}
 
 	@GET
 	@Path("/{id}/songLists/{songList_id}")
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_PLAIN })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response getSongListById(@HeaderParam("Authorization") String token, @PathParam("id") String userId,
 			@PathParam("songList_id") Integer songListId) {
+		
+		GenericEntity<SongLists> songs;
 
-		System.out.println("getAllSongLists: Returning SongLists for this id");
-		SongLists s;
-		System.out.println("Request from: " + authBox.getUserIdByToken(token));
-		if (authBox.getUserIdByToken(token).equals(userId)) {
-			s = songListsDAO.findSongListById(userId, songListId, false);
-		} else {
-			s = songListsDAO.findSongListById(userId, songListId, true);
-		}
-		if (s == null) {
-			return Response.status(Response.Status.NOT_FOUND).entity("No SongList found with id " + songListId).build();
-		} else {
-			return Response.ok(s).build();
-		}
+		songs = songListsDAO.findSongListById(authBox.getUserIdByToken(token), songListId);
+		
+		if (songs == null) {
+			return Response.status(Response.Status.NOT_FOUND).entity("Keine Liste mit dieser ID gefunden!").build();
+		} 
+			
+		return Response.ok(songs).build();
+
 	}
 
 	@POST
@@ -80,7 +91,9 @@ public class SongListsWebService {
 			if (SongLists != null && SongLists.getSongs() != null) {
 				try {
 					int res = songListsDAO.saveSongLists(SongLists);
-					return Response.created(new URI("/songsRXwithDB/rest/userId/" + id + "/songLists/" + res)).build();
+					String link = new URI("/songsRXwithDB/rest/userId/" + id + "/songLists/" + res).getHost();
+					System.out.println("Link: " + link);
+					return Response.ok("/songsRXwithDB/rest/userId/" + id + "/songLists/" + res).build();
 				} catch (Exception e) {
 					return Response.status(Response.Status.BAD_REQUEST).entity("Song doenstn't exists ").build();
 				}
@@ -97,15 +110,21 @@ public class SongListsWebService {
 		System.out.println(authBox.getUserIdByToken(token));
 		System.out.println(id);
 		if (authBox.getUserIdByToken(token).equals(id)) {
-			if (songListsDAO.deleteSongLists(list_id)) {
+			String result = songListsDAO.deleteSongLists(authBox.getUserIdByToken(token), list_id);
+			if (result.equals("ok")) {
 				return Response.status(Response.Status.NO_CONTENT).entity("Sucessfully deleted SongLists").build();
-			} else {
+			} else if(result.equals("not_found")) {
 				return Response.status(Response.Status.NOT_FOUND)
 						.entity("Can't delete this SongLists. SongLists is not exists").build();
+			} else {
+				return Response.status(Response.Status.UNAUTHORIZED).entity("Not authorized to delete other users from playlist ")
+						.build();
 			}
-		}
-		return Response.status(Response.Status.UNAUTHORIZED).entity("Not authorized to delete other users from playlist ")
+		} else {
+			return Response.status(Response.Status.UNAUTHORIZED).entity("Not authorized to delete other users from playlist ")
 				.build();
+		}
+		
 	}
 }
 
