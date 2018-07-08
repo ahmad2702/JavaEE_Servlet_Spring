@@ -23,16 +23,16 @@ public class SongLists {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	private boolean securityType;
-	//1 is public, 0 is private
+	// 1 is public, 0 is private
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
-	
+
 	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-	@JoinTable(name = "SongListsMapping", joinColumns = { 
+	@JoinTable(name = "SongListsMapping", joinColumns = {
 			@JoinColumn(name = "songlists_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "song_id", referencedColumnName = "id") })
 	private List<Song> songs;
@@ -44,7 +44,7 @@ public class SongLists {
 	}
 
 	public SongLists() {
-		
+
 	}
 
 	public int getId() {
@@ -81,4 +81,3 @@ public class SongLists {
 	}
 
 }
-

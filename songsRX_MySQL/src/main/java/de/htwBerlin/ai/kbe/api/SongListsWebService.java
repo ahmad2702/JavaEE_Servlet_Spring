@@ -36,27 +36,24 @@ public class SongListsWebService {
 	@GET
 	@Path("/{id}/songLists")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response getAllSongLists(@HeaderParam("Authorization") String token,
-			@PathParam("id") String id) {
-		
+	public Response getAllSongLists(@HeaderParam("Authorization") String token, @PathParam("id") String id) {
 		GenericEntity<Collection<SongLists>> list = null;
-		
+
 		if (authBox.getUserIdByToken(token).equals(id)) {
-			
+
 			list = songListsDAO.findAllSongLists(id, true);
-			if(list == null) {
+			if (list == null) {
 				Response.status(Response.Status.NOT_FOUND).build();
 			}
-			
-		}else {
-			
+
+		} else {
+
 			list = songListsDAO.findAllSongLists(id, false);
-			if(list == null) {
+			if (list == null) {
 				Response.status(Response.Status.NOT_FOUND).build();
 			}
-			
 		}
-		
+
 		return Response.ok(list).build();
 	}
 
@@ -65,15 +62,15 @@ public class SongListsWebService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response getSongListById(@HeaderParam("Authorization") String token, @PathParam("id") String userId,
 			@PathParam("songList_id") Integer songListId) {
-		
+
 		GenericEntity<SongLists> songs;
 
 		songs = songListsDAO.findSongListById(authBox.getUserIdByToken(token), songListId);
-		
+
 		if (songs == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();
-		} 
-			
+		}
+
 		return Response.ok(songs).build();
 
 	}
@@ -85,8 +82,9 @@ public class SongListsWebService {
 	public Response createSongLists(@HeaderParam("Authorization") String token, @PathParam("id") String id,
 			SongLists songLists) throws URISyntaxException {
 
-		if (authBox.getUserIdByToken(token).equals(id) && songLists.getUser().getUserId().equals(authBox.getUserIdByToken(token))
-				&& songLists.getUser().getId()==authBox.getIDbyToken(token)) {
+		if (authBox.getUserIdByToken(token).equals(id)
+				&& songLists.getUser().getUserId().equals(authBox.getUserIdByToken(token))
+				&& songLists.getUser().getId() == authBox.getIDbyToken(token)) {
 			Response response = null;
 			if (songLists != null && songLists.getSongs() != null) {
 				try {
@@ -98,9 +96,10 @@ public class SongListsWebService {
 			}
 			return response;
 		} else {
-			return Response.status(Response.Status.UNAUTHORIZED).entity("Not authorized to save for other user ").build();
+			return Response.status(Response.Status.UNAUTHORIZED).entity("Not authorized to save for other user ")
+					.build();
 		}
-		
+
 	}
 
 	@DELETE
@@ -114,18 +113,17 @@ public class SongListsWebService {
 			String result = songListsDAO.deleteSongLists(authBox.getUserIdByToken(token), list_id);
 			if (result.equals("ok")) {
 				return Response.status(Response.Status.NO_CONTENT).entity("Sucessfully deleted SongLists").build();
-			} else if(result.equals("not_found")) {
+			} else if (result.equals("not_found")) {
 				return Response.status(Response.Status.NOT_FOUND)
 						.entity("Can't delete this SongLists. SongLists is not exists").build();
 			} else {
-				return Response.status(Response.Status.UNAUTHORIZED).entity("Not authorized to delete other users from playlist ")
-						.build();
+				return Response.status(Response.Status.UNAUTHORIZED)
+						.entity("Not authorized to delete other users from playlist ").build();
 			}
 		} else {
-			return Response.status(Response.Status.UNAUTHORIZED).entity("Not authorized to delete other users from playlist ")
-				.build();
+			return Response.status(Response.Status.UNAUTHORIZED)
+					.entity("Not authorized to delete other users from playlist ").build();
 		}
-		
+
 	}
 }
-

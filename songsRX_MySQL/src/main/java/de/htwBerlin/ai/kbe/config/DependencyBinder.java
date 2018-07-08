@@ -16,13 +16,13 @@ import de.htwBerlin.ai.kbe.storage.InterfaceSongsDAO;
 import de.htwBerlin.ai.kbe.storage.InterfaceUserDAO;
 
 public class DependencyBinder extends AbstractBinder {
-    @Override
-    protected void configure() {
-        bind (Persistence.createEntityManagerFactory("songsServlet-DB")).to(EntityManagerFactory.class);
-        bind(AuthBox.class).to(InterfaceAuthContainer.class).in(Singleton.class);
-        bind(DBUserDAO.class).to(InterfaceUserDAO.class).in(Singleton.class);
-        bind(DBSongsDAO.class).to(InterfaceSongsDAO.class).in(Singleton.class);
+	@Override
+	protected void configure() {
+		bind(Persistence.createEntityManagerFactory("songsServlet-DB")).to(EntityManagerFactory.class);
+		bind(AuthBox.class).to(InterfaceAuthContainer.class).in(Singleton.class);
+		bind(DBUserDAO.class).to(InterfaceUserDAO.class).in(Singleton.class);
+		bind(DBSongsDAO.class).to(InterfaceSongsDAO.class).in(Singleton.class);
 		bind(DBSongListsDAO.class).to(InterfaceSongListsDAO.class).in(Singleton.class);
-        
-    }
+
+	}
 }
