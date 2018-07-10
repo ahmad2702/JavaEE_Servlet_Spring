@@ -80,6 +80,8 @@ public class DBSongListsDAO implements InterfaceSongListsDAO {
 			
 			if(songLists.getUser().getUserId().equals(userId)) {
 				
+				ret = new GenericEntity<SongLists>(entMan.find(SongLists.class, songListId)) {};
+				
 			} else {
 				if(songLists.securityType()) {
 					ret = new GenericEntity<SongLists>(entMan.find(SongLists.class, songListId)) {};
